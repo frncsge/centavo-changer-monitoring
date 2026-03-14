@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transactions</title>
+<link rel="stylesheet" href="transactions.css">
+</head>
+
+<body>
+
+<div class="sidebar">
+    <h2>IoT Dashboard</h2>
+    <ul>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li class="active"><a href="#">Transactions</a></li>
+        <li><a href="storage.html">Coin Inventory</a></li>
+        <li><a href="#">Machine Status</a></li>
+    </ul>
+</div>
+
+<div class="main">
+
+<!-- Topbar -->
+<div class="topbar">
+<h1>Transaction Records</h1>
+<div class="status">System Online</div>
+</div>
+
+<div class="header-top">
+    <div>
+        <p>Complete history of all coin changing transactions</p>
+    </div>
+
+    <div class="header-actions">
+        <button class="add-btn">+ Add Transaction</button>
+    </div>
+</div>
+
+
+<div class="table-box">
+
+<table>
+
+<thead>
+<tr>
+<th>TRANSACTION ID</th>
+<th>25¢ COINS</th>
+<th>PESO VALUE</th>
+<th>COINS DISPENSED</th>
+<th>TIMESTAMP</th>
+<th>STATUS</th>
+<th>ACTIONS</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td>TXN-2024-001</td>
+<td>8</td>
+<td class="peso">₱2.00</td>
+<td><span class="tag">₱1 × 2</span></td>
+<td>2024-01-15 09:23:45</td>
+<td><span class="status">completed</span></td>
+<td class="actions">✏️ 🗑️</td>
+</tr>
+
+<tr>
+<td>TXN-2024-002</td>
+<td>20</td>
+<td class="peso">₱5.00</td>
+<td><span class="tag blue">₱5 × 1</span></td>
+<td>2024-01-15 09:45:12</td>
+<td><span class="status">completed</span></td>
+<td class="actions">✏️ 🗑️</td>
+</tr>
+
+<tr>
+<td>TXN-2024-003</td>
+<td>40</td>
+<td class="peso">₱10.00</td>
+<td><span class="tag green">₱10 × 1</span></td>
+<td>2024-01-15 10:12:33</td>
+<td><span class="status">completed</span></td>
+<td class="actions">✏️ 🗑️</td>
+</tr>
+
+<tr>
+<td>TXN-2024-004</td>
+<td>12</td>
+<td class="peso">₱3.00</td>
+<td><span class="tag">₱1 × 3</span></td>
+<td>2024-01-15 10:34:56</td>
+<td><span class="status">completed</span></td>
+<td class="actions">✏️ 🗑️</td>
+</tr>
+
+<tr>
+<td>TXN-2024-005</td>
+<td>80</td>
+<td class="peso">₱20.00</td>
+<td><span class="tag purple">₱20 × 1</span></td>
+<td>2024-01-15 11:05:21</td>
+<td><span class="status">completed</span></td>
+<td class="actions">✏️ 🗑️</td>
+</tr>
+
+<tr>
+<td>TXN-2024-006</td>
+<td>24</td>
+<td class="peso">₱6.00</td>
+<td>
+<span class="tag">₱1 × 1</span>
+<span class="tag blue">₱5 × 1</span>
+</td>
+<td>2024-01-15 11:28:47</td>
+<td><span class="status">completed</span></td>
+<td class="actions">✏️ 🗑️</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</body>
+</html>

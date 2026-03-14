@@ -1,0 +1,172 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    background: #f4f7fa;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 220px;
+    background: #1e293b;
+    color: white;
+    height: 100vh;
+    padding: 20px;
+}
+
+.sidebar h2 {
+    margin-bottom: 35px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+/* Remove bullet points */
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+/* Space between items */
+.sidebar ul li {
+    margin-bottom: 15px;
+}
+
+/* Link styling */
+.sidebar ul li a {
+    text-decoration: none;
+    color: #cfd8dc;
+    display: block;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: 0.2s;
+}
+
+/* Hover effect */
+.sidebar ul li a:hover {
+    background-color: #2f3e52;
+    color: white;
+}
+
+/* Active page highlight */
+.sidebar ul li.active a {
+    background-color: #3b7ddd;
+    color: white;
+}
+/* MAIN CONTENT */
+.main {
+    flex: 1;
+    padding: 20px;
+}
+
+
+/* TOP BAR */
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.status {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    background: #16a34a;
+    color: white;
+}
+
+.header-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.header-actions{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.add-btn{
+    background:#16a34a;
+    color:white;
+    border:none;
+    padding:10px 16px;
+    border-radius:8px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.add-btn:hover{
+    background:#15803d;
+}
+
+.system-status{
+    background:#16a34a;
+    color:white;
+    padding:6px 14px;
+    border-radius:20px;
+    font-size:13px;
+}
+
+.table-box{
+background:white;
+padding:20px;
+border-radius:12px;
+box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th{
+font-size:12px;
+color:#777;
+padding:12px;
+text-align:left;
+border-bottom:1px solid #eee;
+}
+
+td{
+padding:14px 12px;
+border-bottom:1px solid #f1f1f1;
+}
+
+.peso{
+color:#16a34a;
+font-weight:600;
+}
+
+
+.tag{
+background:#eef2ff;
+padding:4px 8px;
+border-radius:6px;
+font-size:12px;
+margin-right:4px;
+}
+
+.tag.blue{
+background:#dbeafe;
+}
+
+.tag.green{
+background:#dcfce7;
+}
+
+.tag.purple{
+background:#ede9fe;
+}
+
+.actions{
+font-size:16px;
+cursor:pointer;
+}

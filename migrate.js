@@ -25,7 +25,7 @@ for (let file of files) {
   if (!ranFiles.includes(file)) {
     console.log("Running migration:", file);
 
-    // read the SQL file content
+    // read the SQL file content    
     const sqlQuery = await fs.readFile(
       path.join(migrationsFolderPath, file),
       "utf-8",

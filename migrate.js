@@ -32,15 +32,30 @@ try {
         "utf-8",
       );
 
-      // run the query
-      await pool.query(sqlQuery);
+      // wrap in a transaction
+      const client = await pool.connect();
+      try {
+        await client.query("BEGIN");
+        // run the query
+        await client.query(sqlQuery);
 
-      // insert the file into the migrations table to indicate that it has been run
-      await pool.query("INSERT INTO migrations (filename) VALUES ($1)", [file]);
+        // insert the file into the migrations table to indicate that it has been run
+        await client.query("INSERT INTO migrations (filename) VALUES ($1)", [
+          file,
+        ]);
+
+        await client.query("COMMIT");
+
+        console.log("Migration done:", file);
+      } catch (error) {
+        // rollback if something goes wrong
+        await client.query("ROLLBACK");
+        console.error("Migration failed:", file, error);
+      } finally {
+        client.release();
+      }
     }
   }
-
-  console.log("Migration done");
 } catch (error) {
   console.error("An error occured while trying to run migrate.js:", error);
 }

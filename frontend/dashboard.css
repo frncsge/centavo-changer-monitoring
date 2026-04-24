@@ -7,7 +7,7 @@
 
 body {
     display: flex;
-    background: #f4f7fa;
+    background: linear-gradient(135deg, #e6f2ef, #d9ebe7);
 }
 
 /* SIDEBAR */

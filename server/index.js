@@ -2,6 +2,7 @@ import express from "express";
 import transactionsRoutes from "./routes/transactions.route.js";
 import dotenv from "dotenv";
 import cors from "cors";
+import authRoutes from "./routes/auth.route.js"
 
 dotenv.config();
 
@@ -14,6 +15,7 @@ app.use(cors());
 
 // routes
 app.use("/api", transactionsRoutes);
+app.use("/api/auth", authRoutes)
 
 // default check
 app.use("/", (req, res) => {

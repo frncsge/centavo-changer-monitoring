@@ -12,10 +12,10 @@ async function loadTransactions() {
 
         const res = await fetch("http://localhost:3000/api/transactions");
 
-        if (!res.ok) {
-            console.error("Fetch failed:", res.status, res.statusText);
-            return;
-        }
+            if (!res.ok) {
+                console.error("Fetch failed:", res.status, res.statusText);
+                return;
+            }
 
         const data = await res.json();
         const transactions = data.transactions;

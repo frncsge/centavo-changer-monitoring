@@ -5,7 +5,7 @@ import {
   generateAccessToken,
   generateRefreshToken,
 } from "../utils/token.util.js";
-import { createSession } from "../utils/session.util.js";
+import { createSession, clearSession } from "../utils/session.util.js";
 import bcrypt from "bcrypt";
 
 const saltRounds = 12;
@@ -57,6 +57,21 @@ export async function login(req, res) {
     console.error("An error occured while trying to log in:", error);
     res.status(500).json({
       message: "Server error. An error occured while trying to log in.",
+    });
+  }
+}
+
+export async function logout(req, res) {
+  const refreshToken = req.cookies.refreshToken;
+
+  try {
+    await clearSession(res, refreshToken);
+
+    res.status(200).json({ message: "Log out successful" });
+  } catch (error) {
+    console.error("An error occured while trying to log out:", error);
+    res.status(500).json({
+      message: "Server error. An error occured while trying to log out.",
     });
   }
 }

@@ -29,3 +29,23 @@ export async function createSession({
     String(userId),
   );
 }
+
+export async function clearSession(res, refreshToken) {
+  // clear refresh token in redis
+  if (refreshToken) {
+    await redisClient.del(`refresh:${refreshToken}`);
+  }
+
+  // clear access and refresh token cookies
+  res.clearCookie("accessToken", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+  });
+
+  res.clearCookie("refreshToken", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+  });
+}

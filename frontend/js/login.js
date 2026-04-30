@@ -1,33 +1,34 @@
+import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
+import { auth } from "../../config/firebaseConfig.js";
+import { getFirebaseErrorMessages } from "./firebase.js";
+
 async function login() {
   const email = document.getElementById("username").value;
   const password = document.getElementById("password").value;
 
+  // html element for displaying login response/message
+  const displayMessage = document.getElementById("message");
+
   try {
-    const res = await fetch("http://localhost:3000/api/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    });
+    const userCred = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCred.user;
 
-    const data = await res.json();
-    const { message } = data;
+    if (!user.emailVerified) {
+      displayMessage.textContent = "Please verify your email first";
+      return;
+    }
 
-    console.log(message);
+    displayMessage.textContent = "Login successful";
 
-    // 🔥 THIS is what makes it show on screen
-    document.getElementById("message").textContent = message;
+    console.log("User:", user);
 
+    const token = await user.getIdToken();
+    console.log("Firebase token:", token);
   } catch (error) {
-    console.error("Error log in:", error);
-    
+    const errorMessage = getFirebaseErrorMessages(error.code);
+    console.error("Login error:", error.message);
+    document.getElementById("message").textContent = errorMessage;
   }
 }
 
-const loginBtn = document.getElementById("login-btn");
-
-loginBtn.addEventListener("click", login);
+document.getElementById("login-btn").addEventListener("click", login);

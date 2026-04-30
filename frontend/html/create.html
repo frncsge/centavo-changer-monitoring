@@ -13,23 +13,25 @@
         <div class="subtitle">IoT-Enabled Admin Dashboard</div>
 
         <div class="input-group">
-          <label>Username</label>
-          <input id="username" type="text" placeholder="username" />
+          <label>Account name</label>
+          <input id="username" type="text" placeholder="admin" />
         </div>
 
-          <div class="input-group">
+        <div class="input-group">
           <label>Email</label>
-          <input id="Email" type="text" placeholder="email" />
+          <input id="email" type="text" placeholder="example@gmail.com" />
         </div>
 
         <div class="input-group">
           <label>Password</label>
-          <input id="password" type="password" placeholder="password" />
+          <input id="password" type="password" placeholder="example123" />
         </div>
 
-
-        <button id="login-btn" class="btn" >Create</button>
-            <p class="create">Already registered? <a href="login.html">Sign in</a></p>
+        <p class="auth-message-display"></p>
+        <button id="signup-btn" class="btn">Create</button>
+        <p class="create">
+          Already registered? <a href="login.html">Sign in</a>
+        </p>
       </div>
 
       <div class="footer">
@@ -37,6 +39,6 @@
       </div>
     </div>
 
-    <script></script>
+    <script type="module" src="../js/auth/signup.js"></script>
   </body>
 </html>

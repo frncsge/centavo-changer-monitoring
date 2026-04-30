@@ -18,8 +18,13 @@ async function login() {
     const { message } = data;
 
     console.log(message);
+
+    // 🔥 THIS is what makes it show on screen
+    document.getElementById("message").textContent = message;
+
   } catch (error) {
     console.error("Error log in:", error);
+    
   }
 }
 

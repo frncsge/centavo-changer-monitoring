@@ -1,6 +1,4 @@
-import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
-import { auth } from "../../../config/firebaseConfig.js";
-import { getFirebaseErrorMessages } from "../firebase.js";
+import supabase from "../../../config/supabaseConfig.js";
 
 // function for login
 async function login() {
@@ -15,29 +13,20 @@ async function login() {
     return;
   }
 
-  try {
-    // sign in with firebase
-    const userCred = await signInWithEmailAndPassword(auth, email, password);
-    const user = userCred.user;
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+  });
 
-    // if email is not verified, prohibit from loging in
-    if (!user.emailVerified) {
-      displayMessage.textContent = "Please verify your email first";
-      return;
-    }
-
-    displayMessage.textContent = "Login successful";
-
-    console.log("User:", user);
-
-    const token = await user.getIdToken();
-    console.log("Firebase token:", token);
-  } catch (error) {
-    const errorMessage = getFirebaseErrorMessages(error.code);
-
-    console.error("Login error:", error.message);
-    displayMessage.textContent = errorMessage;
+  if (error) {
+    displayMessage.textContent = error.message;
+    return;
   }
+
+  displayMessage.textContent =
+    "Signup successfull! Check your email to verify your account";
+    
+  console.log("User:", data.user);
 }
 
 document.getElementById("login-btn").addEventListener("click", login);

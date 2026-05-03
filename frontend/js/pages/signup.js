@@ -8,11 +8,13 @@ async function signup() {
   // html element for displaying login response/message
   const displayMessage = document.querySelector(".auth-message-display");
 
+  // check if an input field is empty
   if (!accName || !email || !password) {
     displayMessage.textContent = "All input fields are required";
     return;
   }
 
+  // signup using supabase auth
   const { data, error } = await supabase.auth.signUp({
     email,
     password,

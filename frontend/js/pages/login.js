@@ -8,11 +8,13 @@ async function login() {
   // html element for displaying login response/message
   const displayMessage = document.querySelector(".auth-message-display");
 
+  // check if email and password are empty
   if (!email || !password) {
     displayMessage.textContent = "Email and password are required";
     return;
   }
 
+  // login using supabase auth
   const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password,
@@ -23,10 +25,16 @@ async function login() {
     return;
   }
 
-  console.log("Logged in user:", data.user);
+  // check MFA factors
+  const { data: factors } = await supabase.auth.mfa.listFactors();
 
-  window.location.href =
-    "http://127.0.0.1:5501/frontend/html/dashboard.html";
+  if (factors?.totp?.length > 0) {
+    window.location.href = "http://127.0.0.1:5501/frontend/html/auth.html";
+    return;
+  }
+
+  // no MFA → go dashboard
+  window.location.href = "http://127.0.0.1:5501/frontend/html/dashboard.html";
 }
 
 document.getElementById("login-btn").addEventListener("click", login);

@@ -7,14 +7,21 @@
     <link rel="stylesheet" href="../style/verificationMessage.css" />
   </head>
   <body>
-    <div id="success">
-      <h1>Account verified successfully</h1>
-      <a href="./dashboard.html">Go to dashboard</a>
+  <div class="wrapper">
+    <div class="card" id="success">
+      <div class="icon">📧</div>
+      <h1>Account Verified</h1>
+      <p>Your email has been successfully verified. You can now access your dashboard.</p>
+      <a href="./dashboard.html" class="btn">Go to Dashboard</a>
     </div>
-    <div id="failed">
-      <h1>Invalid or expired link. Please try again</h1>
-      <a href="./login.html">Login</a>
+
+    <div class="card" id="failed">
+      <div class="icon">⚠️</div>
+      <h1>Verification Failed</h1>
+      <p>Invalid or expired link. Please try logging in again.</p>
+      <a href="./login.html" class="btn error">Login</a>
     </div>
+  </div>
     <script type="module" src="../js/auth/verificationMessage.js"></script>
   </body>
 </html>

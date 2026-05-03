@@ -13,7 +13,7 @@ async function login() {
     return;
   }
 
-  const { data, error } = await supabase.auth.signUp({
+  const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password,
   });
@@ -23,10 +23,9 @@ async function login() {
     return;
   }
 
-  displayMessage.textContent =
-    "Signup successfull! Check your email to verify your account";
-    
-  console.log("User:", data.user);
+  console.log("Logged in user:", data.user);
+
+  window.location.href = "/dashboard.html";
 }
 
 document.getElementById("login-btn").addEventListener("click", login);

@@ -25,7 +25,8 @@ async function login() {
 
   console.log("Logged in user:", data.user);
 
-  window.location.href = "/dashboard.html";
+  window.location.href =
+    "http://127.0.0.1:5501/frontend/html/dashboard.html";
 }
 
 document.getElementById("login-btn").addEventListener("click", login);

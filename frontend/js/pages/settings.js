@@ -1,4 +1,13 @@
 import { enableTOTP, verifyTOTP } from "../auth/mfa.js";
+import { checkUserAuth } from "../auth/session.js";
+
+// check if user is logged in
+const isLoggedIn = await checkUserAuth();
+
+// if not logged in, redirect user to login page
+if (!isLoggedIn) {
+  window.location.href = "http://127.0.0.1:5501/frontend/html/login.html";
+}
 
 let totpFactorId = null;
 

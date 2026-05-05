@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../../style/settings/totpModal.css" />
+    <link rel="stylesheet" href="../../style/loadingOverlay.css" />
+    <title>Settings</title>
+  </head>
+  <body>
+    <button id="enable-totp-btn">Enable TOTP</button>
+    <button id="logout-btn">logout</button>
+    <div id="TOTP-modal-backdrop">
+      <div id="TOTP-modal">
+        <section id="TOTP-qr-section">
+          <h2>Scan this QR code in your authenticator app</h2>
+          <p>
+            This QR code will only be shown once. Make sure you’ve scanned it
+            with your authenticator app before closing.
+          </p>
+          <img id="qr-code" src="#" alt="QR code for registering TOTP" />
+        </section>
+        <section id="TOTP-code-section">
+          <label for="TOTP-code-input"
+            >Enter the 6-digit code from your authenticator app to verify</label
+          >
+          <input id="TOTP-code-input" type="text" placeholder="0 0 0 0 0 0" />
+          <button id="verify-otp-btn">Verify</button>
+        </section>
+      </div>
+    </div>
+    <div id="loading-overlay" class="hidden">
+      <div class="spinner">Loading...</div>
+    </div>
+  </body>
+  <script type="module" src="../../js/pages/settings.js"></script>
+  <script type="module" src="../../js/pages/logout.js"></script>
+</html>

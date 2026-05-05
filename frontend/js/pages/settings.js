@@ -1,61 +1,91 @@
+import supabase from "../../../config/supabaseConfig.js";
 import { enableTOTP, verifyTOTP } from "../auth/mfa.js";
 import { checkUserAuth } from "../auth/session.js";
+import { hideLoadingOverlay } from "../ui/loadingOverlay.js";
 
-// check if user is logged in
-const isLoggedIn = await checkUserAuth();
+window.addEventListener("DOMContentLoaded", async () => {
+  // ===> check if user is logged in <===
+  const isLoggedIn = await checkUserAuth();
 
-// if not logged in, redirect user to login page
-if (!isLoggedIn) {
-  window.location.href = "http://127.0.0.1:5501/frontend/html/login.html";
-}
+  if (!isLoggedIn) {
+    window.location.href = "http://127.0.0.1:5501/frontend/html/login.html";
+    return;
+  }
 
-let totpFactorId = null;
+  // remove loading once user is proven to be logged in
+  hideLoadingOverlay();
 
-document.getElementById("enable-totp").addEventListener("click", async () => {
-  document.getElementById("TOTP-modal-backdrop").style.display = "block";
+  // ===> check if TOTP is already enabled <===
+  const { data, error } = await supabase.auth.mfa.listFactors();
 
-  const result = await enableTOTP();
+  if (error) {
+    console.error(error.message);
+    return;
+  }
 
-  if (result.error) return console.error(result.error);
+  const isTOTPenabled = data.totp.length > 0;
 
-  totpFactorId = result.totpFactorId;
+  const enableTOTPbtn = document.getElementById("enable-totp-btn");
+  isTOTPenabled
+    ? (enableTOTPbtn.textContent = "Disable TOTP")
+    : (enableTOTPbtn.textContent = "Enable TOTP");
 
-  document.getElementById("qr-code").src = result.qrCode;
-});
+  // ===> when user clicks enable TOTP button <====
+  let totpFactorId = null;
+  enableTOTPbtn.addEventListener("click", async () => {
+    document.getElementById("TOTP-modal-backdrop").style.display = "block";
 
-document
-  .getElementById("TOTP-modal-backdrop")
-  .addEventListener("click", async (e) => {
-    const id = e.target.id;
+    const uniqueName = `Changetavo MFA ${Date.now()}-${Math.random()}`;
 
-    // close modal
-    if (id === "TOTP-modal-backdrop") {
-      document.getElementById("TOTP-modal-backdrop").style.display = "none";
+    // enroll new factor
+    const { data, error } = await supabase.auth.mfa.enroll({
+      factorType: "totp",
+      friendlyName: uniqueName,
+    });
+
+    if (error) {
+      // if error, hide totp-qr-section
+      document.getElementById("TOTP-qr-section").style.display = "none";
+      return;
     }
 
-    // VERIFY OTP
-    if (id === "verify-otp-btn") {
-      const code = document.getElementById("TOTP-code-input").value;
+    totpFactorId = data.id;
+    const qrCode = data.totp.qr_code;
+    document.getElementById("qr-code").src = qrCode;
+  });
 
-      const result = await verifyTOTP(code, totpFactorId);
+  // event listeners for elements inside the TOTP-modal-backdrop
+  document
+    .getElementById("TOTP-modal-backdrop")
+    .addEventListener("click", async (e) => {
+      const id = e.target.id;
 
-      if (result.error) {
-        alert(result.error.message);
-        return;
+      // close modal
+      if (id === "TOTP-modal-backdrop") {
+        const confirmed = confirm(
+          "Exit TOTP setup? Your account won’t be protected with 2FA until you finish.",
+        );
+
+        if (confirmed) {
+          document.getElementById("TOTP-modal-backdrop").style.display = "none";
+        }
       }
 
-      alert("MFA enabled!");
-    }
+      // VERIFY OTP
+      if (id === "verify-otp-btn") {
+        const code = document.getElementById("TOTP-code-input").value;
 
-    // NEXT
-    if (id === "next-btn") {
-      document.getElementById("TOTP-qr-section").style.display = "none";
-      document.getElementById("TOTP-code-section").style.display = "flex";
-    }
+        const result = await verifyTOTP(code, totpFactorId);
 
-    // PREV
-    if (id === "prev-btn") {
-      document.getElementById("TOTP-qr-section").style.display = "flex";
-      document.getElementById("TOTP-code-section").style.display = "none";
-    }
-  });
+        if (result.error) {
+          alert(result.error.message);
+          return;
+        }
+
+        alert("MFA enabled!");
+        document.getElementById("TOTP-modal-backdrop").style.display = "none";
+      }
+    });
+});
+
+// let user choose to continue verify TOTP factor or generate new one (QR CODE)

@@ -1,4 +1,4 @@
-#loading-overlay {
+.page-loading-overlay {
   position: fixed;
   inset: 0;
   background: rgb(43, 255, 93);

@@ -15,8 +15,8 @@
         <section id="TOTP-qr-section">
           <h2>Scan this QR code in your authenticator app</h2>
           <p>
-            This QR code will only be shown once. Make sure you’ve scanned it
-            with your authenticator app before closing.
+            This QR code will only be shown once. If you close this window,
+            you’ll need to generate a new one to continue.
           </p>
           <img id="qr-code" src="#" alt="QR code for registering TOTP" />
         </section>
@@ -29,7 +29,7 @@
         </section>
       </div>
     </div>
-    <div id="loading-overlay" class="hidden">
+    <div class="page-loading-overlay" class="hidden">
       <div class="spinner">Loading...</div>
     </div>
   </body>

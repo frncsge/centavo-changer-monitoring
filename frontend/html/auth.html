@@ -1,17 +1,15 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OTP Verification</title>
-<link rel="stylesheet" href="../style/auth.css">
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OTP Verification</title>
+    <link rel="stylesheet" href="../style/auth.css" />
+  </head>
 
-<body>
-
-<div class="wrapper">
-    <div class="container">
-
+  <body>
+    <div class="wrapper">
+      <div class="container">
         <h2>Coin Changer Monitor</h2>
         <div class="subtitle">IoT-Enabled Admin Dashboard</div>
 
@@ -21,20 +19,20 @@
         <div class="desc">Enter the 6-digit OTP code</div>
 
         <div class="input-group">
-            <label>OTP Code</label>
-            <input type="text" maxlength="6" placeholder="123456">
+          <label>OTP Code</label>
+          <input id="totp-code-input" type="text" maxlength="6" placeholder="123456" />
         </div>
 
-        <button class="btn">Verify & Login</button>
+        <button id="verify-otp-btn">Verify & Login</button>
 
-        <div class="back">← Back to login</div>
+        <div class="back"><a href="./login.html">← Back to login</a></div>
+      </div>
 
-    </div>
-
-    <div class="footer">
+      <div class="footer">
         Automated Coin Changing Machine Monitoring System
+      </div>
     </div>
-</div>
 
-</body>
+    <script type="module" src="../js/pages/auth.js"></script>
+  </body>
 </html>

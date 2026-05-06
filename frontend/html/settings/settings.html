@@ -4,12 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../../style/settings/totpModal.css" />
-    <link rel="stylesheet" href="../../style/loadingOverlay.css" />
+    <link rel="stylesheet" href="../../style/pageLoadingOverlay.css" />
     <title>Settings</title>
   </head>
   <body>
     <button id="enable-totp-btn">Enable TOTP</button>
-    <button id="logout-btn">logout</button>
     <div id="TOTP-modal-backdrop">
       <div id="TOTP-modal">
         <section id="TOTP-qr-section">
@@ -29,10 +28,9 @@
         </section>
       </div>
     </div>
-    <div class="page-loading-overlay" class="hidden">
+    <div id="page-loading-overlay">
       <div class="spinner">Loading...</div>
     </div>
   </body>
   <script type="module" src="../../js/pages/settings.js"></script>
-  <script type="module" src="../../js/pages/logout.js"></script>
 </html>

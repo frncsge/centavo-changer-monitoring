@@ -1,7 +1,7 @@
 import supabase from "../../../config/supabaseConfig.js";
 import { enableTOTP, verifyTOTP } from "../auth/mfa.js";
 import { checkUserAuth } from "../auth/session.js";
-import { hideLoadingOverlay } from "../ui/loadingOverlay.js";
+import { hidePageLoadingOverlay } from "../ui/pageLoadingOverlay.js";
 
 const enableTOTPbtn = document.getElementById("enable-totp-btn");
 
@@ -17,7 +17,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   await checkTOTPenabled();
 
   // remove loading once user is proven to be logged in
-  hideLoadingOverlay();
+  hidePageLoadingOverlay();
 
   // when user clicks enable TOTP button
   let totpFactorId = null;

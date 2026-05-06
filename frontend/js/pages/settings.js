@@ -14,7 +14,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   }
 
   // check if TOTP is already enabled
-  await checkTOTPenabled();
+  const factorId = await checkTOTPenabled();
 
   // remove loading once user is proven to be logged in
   hidePageLoadingOverlay();
@@ -22,6 +22,27 @@ window.addEventListener("DOMContentLoaded", async () => {
   // when user clicks enable TOTP button
   let totpFactorId = null;
   enableTOTPbtn.addEventListener("click", async () => {
+    if (factorId) {
+      const confirmed = confirm(
+        "Are you sure you want to disable two-factor authentication? Your account will be less secure.",
+      );
+
+      if (!confirmed) return;
+
+      const { error: unenrollError } = await supabase.auth.mfa.unenroll({
+        factorId,
+      });
+
+      if (unenrollError) {
+        alert(unenrollError.message);
+        return;
+      }
+
+      alert("TOTP disabled successfully!");
+      window.location.reload();
+      return;
+    }
+
     const confirmed = confirm(
       "Set up two-factor authentication using an authenticator app?",
     );
@@ -79,6 +100,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
         alert("MFA enabled!");
         document.getElementById("TOTP-modal-backdrop").style.display = "none";
+        window.location.reload();
       }
     });
 });
@@ -98,4 +120,6 @@ async function checkTOTPenabled() {
   isTOTPenabled
     ? (enableTOTPbtn.textContent = "Disable TOTP")
     : (enableTOTPbtn.textContent = "Enable TOTP");
+
+  return data.totp?.[0]?.id;
 }

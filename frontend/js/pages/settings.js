@@ -3,36 +3,31 @@ import { enableTOTP, verifyTOTP } from "../auth/mfa.js";
 import { checkUserAuth } from "../auth/session.js";
 import { hideLoadingOverlay } from "../ui/loadingOverlay.js";
 
+const enableTOTPbtn = document.getElementById("enable-totp-btn");
+
 window.addEventListener("DOMContentLoaded", async () => {
-  // ===> check if user is logged in <===
+  // check if user is logged in
   const isLoggedIn = await checkUserAuth();
 
   if (!isLoggedIn) {
     window.location.href = "http://127.0.0.1:5501/frontend/html/login.html";
-    return;
   }
+
+  // check if TOTP is already enabled
+  await checkTOTPenabled();
 
   // remove loading once user is proven to be logged in
   hideLoadingOverlay();
 
-  // ===> check if TOTP is already enabled <===
-  const { data, error } = await supabase.auth.mfa.listFactors();
-
-  if (error) {
-    console.error(error.message);
-    return;
-  }
-
-  const isTOTPenabled = data.totp.length > 0;
-
-  const enableTOTPbtn = document.getElementById("enable-totp-btn");
-  isTOTPenabled
-    ? (enableTOTPbtn.textContent = "Disable TOTP")
-    : (enableTOTPbtn.textContent = "Enable TOTP");
-
-  // ===> when user clicks enable TOTP button <====
+  // when user clicks enable TOTP button
   let totpFactorId = null;
   enableTOTPbtn.addEventListener("click", async () => {
+    const confirmed = confirm(
+      "Set up two-factor authentication using an authenticator app?",
+    );
+
+    if (!confirmed) return;
+
     document.getElementById("TOTP-modal-backdrop").style.display = "block";
 
     const uniqueName = `Changetavo MFA ${Date.now()}-${Math.random()}`;
@@ -88,4 +83,19 @@ window.addEventListener("DOMContentLoaded", async () => {
     });
 });
 
-// let user choose to continue verify TOTP factor or generate new one (QR CODE)
+async function checkTOTPenabled() {
+  // ===> check if TOTP is already enabled <===
+  const { data, error } = await supabase.auth.mfa.listFactors();
+
+  if (error) {
+    console.error(error.message);
+    return;
+  }
+
+  const isTOTPenabled = data.totp.length > 0;
+
+  const enableTOTPbtn = document.getElementById("enable-totp-btn");
+  isTOTPenabled
+    ? (enableTOTPbtn.textContent = "Disable TOTP")
+    : (enableTOTPbtn.textContent = "Enable TOTP");
+}

@@ -1,4 +1,4 @@
-import supabase from "../../../config/supabaseConfig.js";
+import supabase from "../../../config/supabaseClient.js";
 import { enableTOTP, verifyTOTP } from "../auth/mfa.js";
 import { checkUserAuth } from "../auth/session.js";
 import { hidePageLoadingOverlay } from "../ui/pageLoadingOverlay.js";

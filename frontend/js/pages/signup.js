@@ -1,4 +1,4 @@
-import supabase from "../../../config/supabaseConfig.js";
+import supabase from "../../../config/supabaseClient.js";
 
 async function signup() {
   const accName = document.getElementById("account-name").value?.trim();
@@ -27,6 +27,18 @@ async function signup() {
   if (error) {
     displayMessage.textContent = error.message;
     return;
+  }
+
+  if (data.user) {
+    const { error: insertError } = await supabase.from("admins").insert({
+      supabase_uid: data.user.id,
+      account_name: accName,
+    });
+
+    if (insertError) {
+      displayMessage.textContent = insertError.message;
+      return;
+    }
   }
 
   displayMessage.textContent =

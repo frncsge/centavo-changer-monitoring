@@ -1,3 +1,4 @@
 node_modules/
 .env
-config/supabaseConfig.js
+config/supabaseClient.js
+config/supabaseAdmin.js

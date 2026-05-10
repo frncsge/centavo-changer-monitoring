@@ -2,7 +2,7 @@ import { fetchTransactions } from "../models/transactions.model.js";
 
 export const getTransactions = async (req, res) => {
   try {
-    const transactions = await fetchTransactions();
+    const transactions = await fetchTransactions(req.user.id);
     res.status(200).json({ transactions });
   } catch (error) {
     console.error("An error occured while trying to get transactions:", error);

@@ -1,4 +1,4 @@
-async function loadTransactions() {
+export async function loadTransactions() {
     try {
         const tableBody = document.getElementById("transactionTable");
 
@@ -50,6 +50,3 @@ async function loadTransactions() {
         console.error("Error loading transactions:", err);
     }
 }
-
-// Run after page loads
-window.onload = loadTransactions;

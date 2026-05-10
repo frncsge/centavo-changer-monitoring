@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Changetavo Login</title>
-    <link rel="stylesheet" href="../style/login.css" />
+    <title>Changetavo Create Account</title>
+    <link rel="stylesheet" href="../style/create.css" />
   </head>
   <body>
     <div>
@@ -13,19 +13,24 @@
         <div class="subtitle">IoT-Enabled Admin Dashboard</div>
 
         <div class="input-group">
+          <label>Account name</label>
+          <input id="account-name" type="text" placeholder="admin" />
+        </div>
+
+        <div class="input-group">
           <label>Email</label>
-          <input id="email" type="text" placeholder="email" />
+          <input id="email" type="text" placeholder="example@gmail.com" />
         </div>
 
         <div class="input-group">
           <label>Password</label>
-          <input id="password" type="password" placeholder="password" />
+          <input id="password" type="password" placeholder="example123" />
         </div>
-        <span id="forgot-password-btn">Forgot password?</span>
+
         <p class="auth-message-display"></p>
-        <button id="login-btn" class="btn">Login</button>
+        <button id="signup-btn" class="btn">Create</button>
         <p class="create">
-          Not registered? <a href="create.html">Create an Account</a>
+          Already have an account? <a href="login.html">Login</a>
         </p>
       </div>
 
@@ -34,6 +39,6 @@
       </div>
     </div>
 
-    <script type="module" src="../js/pages/login.js"></script>
+    <script type="module" src="../js/pages/signup.js"></script>
   </body>
 </html>

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../style/settings/totpModal.css" />
+    <link rel="stylesheet" href="../style/pageLoadingOverlay.css" />
+    <title>Settings</title>
+  </head>
+  <body>
+     <!-- Sidebar -->
+    <div class="sidebar">
+      <h2>IoT Dashboard</h2>
+      <ul>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="transactions.html">Transactions</a></li>
+        <li><a href="storage.html">Coin Inventory</a></li>
+        <li class="active"><a href="settings.html">Settings</a></li>
+        <li id="logout-btn"><a href="#">Logout</a></li>
+      </ul>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+      <!-- HEADER -->
+      <div class="header">
+        <div>
+          <h1>Settings</h1>
+          <p>Manage your account security</p>
+        </div>
+        <span class="status">System Online</span>
+      </div>
+
+      <!-- SETTINGS CARD -->
+      <div class="card">
+        <h3>Security</h3>
+
+        <div class="setting-row">
+          <div class="setting-info">
+            <strong>Two-Factor Authentication (TOTP)</strong>
+            <p>Add an extra layer of security to your account</p>
+          </div>
+
+          <button id="enable-totp-btn">Enable</button>
+        </div>
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- KEEP YOUR MODAL -->
+  <div id="TOTP-modal-backdrop">
+    <div id="TOTP-modal">
+      <section id="TOTP-qr-section">
+        <h2>Scan this QR code in your authenticator app</h2>
+        <p>This QR code will only be shown once.</p>
+        <img id="qr-code" src="#" />
+      </section>
+
+      <section id="TOTP-code-section">
+        <label>Enter the 6-digit code</label>
+        <input id="TOTP-code-input" type="text" />
+        <button id="verify-otp-btn">Verify</button>
+      </section>
+    </div>
+  </div>
+
+  <div id="page-loading-overlay">
+    <div class="spinner">Loading...</div>
+  </div>
+
+</body>
+  <script type="module" src="../js/pages/settings.js"></script>
+  <script type="module" src="../js/ui/pageLoadingOverlay.js"></script>
+</html>

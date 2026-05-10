@@ -22,6 +22,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   // when user clicks enable TOTP button
   let totpFactorId = null;
   enableTOTPbtn.addEventListener("click", async () => {
+    // if TOTP is enabled
     if (factorId) {
       const confirmed = confirm(
         "Are you sure you want to disable two-factor authentication? Your account will be less secure.",
@@ -43,6 +44,7 @@ window.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
+    // if TOTP is not enabled
     const confirmed = confirm(
       "Set up two-factor authentication using an authenticator app?",
     );

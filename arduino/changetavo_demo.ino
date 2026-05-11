@@ -21,9 +21,9 @@ struct DispensedCoin {
 };
 
 DispensedCoin dispensedCoins[] = {
-  {20, 5},
-  {5, 6},
-  {1, 2}
+  {10, 2},
+  {5, 2},
+  {1, 3}
 };
 
 void setup() {

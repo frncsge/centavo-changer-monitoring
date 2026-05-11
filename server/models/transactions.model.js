@@ -38,16 +38,16 @@ export const storeNewTransaction = async ({
   centavos,
   dispensed,
 }) => {
-  try {
-    const client = await pool.connect();
+  const client = await pool.connect();
 
+  try {
     await client.query("BEGIN");
 
     // store transaction to the transactions table first
     const txnResult = await client.query(
       `
         INSERT INTO transactions (machine_id, event_id, centavos_25_inserted)
-        VALUES ($1, $2)
+        VALUES ($1, $2, $3)
         RETURNING transaction_id;
       `,
       [machineId, eventId, centavos],
@@ -55,32 +55,34 @@ export const storeNewTransaction = async ({
 
     const transactionId = txnResult.rows[0].transaction_id;
 
-    const placeholders = [];
-    const values = [];
+    if (dispensed?.length) {
+      const placeholders = [];
+      const values = [];
 
-    dispensed.forEach((item, index) => {
-      placeholders.push(
-        `($${index * 3 + 1}, $${index * 3 + 2}, $${index * 3 + 3})`,
-      );
+      dispensed.forEach((item, index) => {
+        placeholders.push(
+          `($${index * 3 + 1}, $${index * 3 + 2}, $${index * 3 + 3})`,
+        );
 
-      values.push(transactionId, item.peso_value, item.quantity);
-    });
+        values.push(transactionId, item.peso_value, item.quantity);
+      });
 
-    console.log("placeholders:", placeholders);
-    console.log("values:", values);
+      console.log("placeholders:", placeholders);
+      console.log("values:", values);
 
-    // then store the peso dispensed from the same transaction
-    await client.query(
-      `
+      // then store the peso dispensed from the same transaction
+      await client.query(
+        `
         INSERT INTO peso_dispensed (transaction_id, peso_value, quantity)
         VALUES ${placeholders.join(", ")}
       `,
-      values,
-    );
+        values,
+      );
+    }
 
     await client.query("COMMIT");
   } catch (error) {
-    await client.query("ROLLBACK");
+    if (client) await client.query("ROLLBACK");
 
     console.error(
       "An error occured while trying to store a new transaction to the database:",
@@ -91,12 +93,3 @@ export const storeNewTransaction = async ({
     client.release();
   }
 };
-
-// await storeNewTransaction({
-//   machineId: 8,
-//   centavos: 92,
-//   dispensed: [
-//     { peso_value: 20, quantity: 1 },
-//     { peso_value: 1, quantity: 3 },
-//   ],
-// });

@@ -48,7 +48,13 @@ export async function loadTransactions() {
                 <td>${txn.centavos_25_inserted}</td>
                 <td class="peso">₱${pesoValue}</td>
                 <td>${dispensedHTML}</td>
-                <td>${txn.transaction_date_time}</td>
+                <td>${new Date(txn.transaction_date_time).toLocaleString(
+                  "en-PH",
+                  {
+                    dateStyle: "medium",
+                    timeStyle: "short",
+                  },
+                )}</td>
                 <td><span class="status">completed</span></td>
                 <td class="actions">✏️ 🗑️</td>
             `;

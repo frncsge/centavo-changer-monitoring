@@ -1,4 +1,4 @@
-import supabase from "../../../config/supabaseConfig.js";
+import supabase from "../../../config/supabaseClient.js";
 import { enableTOTP, verifyTOTP } from "../auth/mfa.js";
 import { checkUserAuth } from "../auth/session.js";
 import { hidePageLoadingOverlay } from "../ui/pageLoadingOverlay.js";
@@ -10,7 +10,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   const isLoggedIn = await checkUserAuth();
 
   if (!isLoggedIn) {
-    window.location.href = "http://127.0.0.1:5501/frontend/html/login.html";
+    window.location.replace("http://127.0.0.1:5501/frontend/html/login.html");
   }
 
   // check if TOTP is already enabled
@@ -22,6 +22,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   // when user clicks enable TOTP button
   let totpFactorId = null;
   enableTOTPbtn.addEventListener("click", async () => {
+    // if TOTP is enabled
     if (factorId) {
       const confirmed = confirm(
         "Are you sure you want to disable two-factor authentication? Your account will be less secure.",
@@ -43,6 +44,7 @@ window.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
+    // if TOTP is not enabled
     const confirmed = confirm(
       "Set up two-factor authentication using an authenticator app?",
     );

@@ -1,4 +1,4 @@
-import supabase from "../../../config/supabaseConfig.js";
+import supabase from "../../../config/supabaseClient.js";
 
 document.getElementById("logout-btn").addEventListener("click", async () => {
   const confirmed = confirm("Are you sure you want to log out?");

@@ -3,6 +3,7 @@ import transactionsRoutes from "./routes/transactions.route.js";
 import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import machineStorageRoutes from "./routes/machineStorage.route.js";
 
 dotenv.config();
 
@@ -16,6 +17,9 @@ app.use(cookieParser());
 
 // routes
 app.use("/api", transactionsRoutes);
+
+// routes for machine storage
+app.use("/api", machineStorageRoutes);
 
 // default check
 app.use("/", (req, res) => {

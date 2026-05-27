@@ -20,10 +20,18 @@
     </div>
 
     <div class="main">
-      <div class="topbar">
-        <h1>Coin Inventory</h1>
-        <div class="status">System Online</div>
-      </div>
+      <<div class="topbar">
+  <div>
+    <h1>Coin Inventory</h1>
+  </div>
+
+  <div class="topbar-actions">
+    <div class="status">
+      <span class="dot"></span>
+      System Online
+    </div>
+  </div>
+</div>
 
       <!-- Overall Inventory -->
       <div class="inventory-overview">
@@ -46,77 +54,57 @@
         </div>
       </div>
 
-      <!-- Coin Cards -->
-      <div class="coin-grid">
-        <div class="coin-card">
-          <h3>₱1</h3>
-          <p>Peso Coin</p>
-          <p>Available: <span id="one">245</span> coins</p>
-          <p>Capacity: 500 coins</p>
+      
+<div class="refill-section">
+  <div class="refill-header">
+    <h3>Coin Refill Management</h3>
+    <p>Update coin inventory manually when the machine is refilled.</p>
+  </div>
 
-          <div class="progress-bar small">
-            <div class="progress orange" style="width: 49%"></div>
-          </div>
-        </div>
+  <div class="refill-cards">
+    <div class="refill-card">
+      <h4>₱1 Coin</h4>
+      <p>Current Stock: <span id="oneStock">245</span></p>
+      <button class="refill-btn" data-coin="₱1">Refill</button>
+    </div>
 
-        <div class="coin-card">
-          <h3>₱5</h3>
-          <p>Peso Coin</p>
-          <p>Available: <span id="five">180</span> coins</p>
-          <p>Capacity: 300 coins</p>
+    <div class="refill-card">
+      <h4>₱5 Coin</h4>
+      <p>Current Stock: <span id="fiveStock">180</span></p>
+      <button class="refill-btn" data-coin="₱5">Refill</button>
+    </div>
 
-          <div class="progress-bar small">
-            <div class="progress green" style="width: 60%"></div>
-          </div>
-        </div>
+    <div class="refill-card">
+      <h4>₱10 Coin</h4>
+      <p>Current Stock: <span id="tenStock">95</span></p>
+      <button class="refill-btn" data-coin="₱10">Refill</button>
+    </div>
 
-        <div class="coin-card">
-          <h3>₱10</h3>
-          <p>Peso Coin</p>
-          <p>Available: <span id="ten">95</span> coins</p>
-          <p>Capacity: 200 coins</p>
+    <div class="refill-card">
+      <h4>₱20 Coin</h4>
+      <p>Current Stock: <span id="twentyStock">42</span></p>
+      <button class="refill-btn" data-coin="₱20">Refill</button>
+    </div>
+  </div>
+</div>
 
-          <div class="progress-bar small">
-            <div class="progress orange" style="width: 47%"></div>
-          </div>
-        </div>
+<!-- MODAL -->
+<div class="modal" id="refillModal">
+  <div class="modal-content">
+    <h2 id="modalTitle">Refill Coins</h2>
 
-        <div class="coin-card">
-          <h3>₱20</h3>
-          <p>Peso Coin</p>
-          <p>Available: <span id="twenty">42</span> coins</p>
-          <p>Capacity: 150 coins</p>
+    <input
+      type="number"
+      id="refillInput"
+      placeholder="Enter number of coins"
+    />
 
-          <div class="progress-bar small">
-            <div class="progress orange" style="width: 28%"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Inventory Alerts -->
-      <div class="alerts">
-        <h3>Inventory Alerts</h3>
-
-        <div class="alert">
-          ⚠ ₱1 Coin Stock Low
-          <button>Refill</button>
-        </div>
-
-        <div class="alert">
-          ⚠ ₱5 Coin Stock Low
-          <button>Refill</button>
-        </div>
-
-        <div class="alert">
-          ⚠ ₱10 Coin Stock Low
-          <button>Refill</button>
-        </div>
-
-        <div class="alert">
-          ⚠ ₱20 Coin Stock Low
-          <button>Refill</button>
-        </div>
-      </div>
+    <div class="modal-actions">
+      <button class="cancel-btn" id="closeModal">Cancel</button>
+      <button class="save-btn" id="saveRefill">Save</button>
+    </div>
+  </div>
+</div>
     </div>
     <script type="module" src="../js/pages/storage.js"></script>
     <script type="module" src="../js/pages/logout.js"></script>

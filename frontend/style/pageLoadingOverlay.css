@@ -10,3 +10,112 @@
 /* .hidden {
   display: none;
 } */
+
+/* =========================
+   TABLET RESPONSIVE
+========================= */
+@media (max-width: 1024px) {
+
+    .cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .status-panels {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
+@media (max-width: 768px) {
+
+    body {
+        flex-direction: column;
+    }
+
+    /* Sidebar */
+    .sidebar {
+        width: 100%;
+        height: auto;
+        padding: 15px;
+    }
+
+    .sidebar h2 {
+        margin-bottom: 20px;
+    }
+
+    .sidebar ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .sidebar ul li {
+        margin-bottom: 0;
+    }
+
+    .sidebar ul li a {
+        padding: 10px 14px;
+        font-size: 14px;
+    }
+
+    /* Main */
+    .main {
+        padding: 15px;
+    }
+
+    /* Topbar */
+    .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .topbar h1 {
+        font-size: 32px;
+    }
+
+    /* Cards */
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+    /* Panels */
+    .status-panels {
+        grid-template-columns: 1fr;
+    }
+
+    /* Table */
+    .table-card {
+        overflow-x: auto;
+    }
+
+    table {
+        min-width: 700px;
+    }
+}
+
+
+/* =========================
+   SMALL PHONE
+========================= */
+@media (max-width: 480px) {
+
+    .topbar h1 {
+        font-size: 26px;
+    }
+
+    .card h2 {
+        font-size: 24px;
+    }
+
+    .sidebar ul {
+        flex-direction: column;
+    }
+
+    .sidebar ul li a {
+        width: 100%;
+    }
+}

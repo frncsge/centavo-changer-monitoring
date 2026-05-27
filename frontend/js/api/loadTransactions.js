@@ -12,7 +12,7 @@ export async function loadTransactions() {
     // Clear old data
     tableBody.innerHTML = "";
 
-    const res = await authFetch("http://localhost:3000/api/transactions");
+    const res = await authFetch("/transactions");
 
     if (res.status === 401) {
       console.log(res);

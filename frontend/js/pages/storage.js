@@ -45,3 +45,55 @@ window.addEventListener("DOMContentLoaded", async () => {
     console.error("Error loading transactions:", error);
   }
 });
+
+const modal = document.getElementById("refillModal");
+const modalTitle = document.getElementById("modalTitle");
+const refillInput = document.getElementById("refillInput");
+const closeModal = document.getElementById("closeModal");
+
+let selectedCard = null;
+
+// Open modal
+document.addEventListener("click", (e) => {
+  if (e.target.classList.contains("refill-btn")) {
+    selectedCard = e.target.closest(".refill-card");
+
+    modalTitle.textContent =
+      `Refill ${e.target.dataset.coin}`;
+
+    refillInput.value = 0;
+
+    modal.classList.add("show");
+  }
+});
+
+// Close modal
+closeModal.addEventListener("click", () => {
+  modal.classList.remove("show");
+});
+
+// Plus button
+document.getElementById("plusBtn").addEventListener("click", () => {
+  refillInput.value = Number(refillInput.value) + 1;
+});
+
+// Minus button
+document.getElementById("minusBtn").addEventListener("click", () => {
+  if (Number(refillInput.value) > 0) {
+    refillInput.value = Number(refillInput.value) - 1;
+  }
+});
+
+// Save refill
+document.getElementById("saveRefill").addEventListener("click", () => {
+  if (!selectedCard) return;
+
+  const stockSpan = selectedCard.querySelector("span");
+
+  const currentStock = Number(stockSpan.textContent);
+  const refillAmount = Number(refillInput.value);
+
+  stockSpan.textContent = currentStock + refillAmount;
+
+  modal.classList.remove("show");
+});

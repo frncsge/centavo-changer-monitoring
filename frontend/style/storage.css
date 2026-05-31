@@ -380,6 +380,40 @@ background:#2563eb;
   color: white;
 }
 
+.card-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.refill-btn,
+.edit-btn {
+  flex: 1;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.refill-btn {
+  background: #27ae60;
+  color: white;
+}
+
+.edit-btn {
+  background: #3498db;
+  color: white;
+}
+
+.refill-btn:hover {
+  background: #219150;
+}
+
+.edit-btn:hover {
+  background: #2980b9;
+}
+
 /* =========================
    TABLET RESPONSIVE
 ========================= */

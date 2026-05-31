@@ -32,12 +32,21 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     storage.forEach((item) => {
       const refillCard = `
-      <div class="refill-card">
-        <h4>₱${item.peso_value} Coin</h4>
-        <p>Current Stock: <span>${item.quantity}</span></p>
-        <button class="refill-btn" data-coin="₱${item.peso_value}">Refill</button>
-      </div>
-      `;
+<div class="refill-card">
+  <h4>₱${item.peso_value} Coin</h4>
+  <p>Current Stock: <span>${item.quantity}</span></p>
+
+  <div class="card-actions">
+    <button class="refill-btn" data-coin="₱${item.peso_value}">
+      Refill
+    </button>
+
+    <button class="edit-btn" data-coin="₱${item.peso_value}">
+      Edit
+    </button>
+  </div>
+</div>
+`;
 
       refillCardsContainer.innerHTML += refillCard;
     });
@@ -52,16 +61,35 @@ const refillInput = document.getElementById("refillInput");
 const closeModal = document.getElementById("closeModal");
 
 let selectedCard = null;
+let modalMode = "refill"; // refill or edit
 
 // Open modal
 document.addEventListener("click", (e) => {
+  // Refill
   if (e.target.classList.contains("refill-btn")) {
     selectedCard = e.target.closest(".refill-card");
+    modalMode = "refill";
 
     modalTitle.textContent =
       `Refill ${e.target.dataset.coin}`;
 
     refillInput.value = 0;
+
+    modal.classList.add("show");
+  }
+
+  // Edit
+  if (e.target.classList.contains("edit-btn")) {
+    selectedCard = e.target.closest(".refill-card");
+    modalMode = "edit";
+
+    const currentStock =
+      selectedCard.querySelector("span").textContent;
+
+    modalTitle.textContent =
+      `Edit ${e.target.dataset.coin} Stock`;
+
+    refillInput.value = currentStock;
 
     modal.classList.add("show");
   }
@@ -89,11 +117,16 @@ document.getElementById("saveRefill").addEventListener("click", () => {
   if (!selectedCard) return;
 
   const stockSpan = selectedCard.querySelector("span");
+  const value = Number(refillInput.value);
 
-  const currentStock = Number(stockSpan.textContent);
-  const refillAmount = Number(refillInput.value);
+  if (modalMode === "refill") {
+    const currentStock = Number(stockSpan.textContent);
+    stockSpan.textContent = currentStock + value;
+  }
 
-  stockSpan.textContent = currentStock + refillAmount;
+  if (modalMode === "edit") {
+    stockSpan.textContent = value;
+  }
 
   modal.classList.remove("show");
 });

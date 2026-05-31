@@ -9,7 +9,8 @@ export const fetchMachineStorage = async (userId) => {
         FROM machine_storage ms
         JOIN machines m ON ms.machine_id = m.machine_id
         JOIN admins a ON m.admin_id = a.admin_id
-        WHERE a.supabase_uid = $1;
+        WHERE a.supabase_uid = $1
+        ORDER BY ms.peso_value ASC;
     `,
       [userId],
     );

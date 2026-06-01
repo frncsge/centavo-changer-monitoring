@@ -25,7 +25,10 @@ export const fetchMachineStorage = async (userId) => {
   }
 };
 
-export const storeRefill = async ({ machineId, pesoValue, quantity }) => {
+export const storeRefill = async ({
+  machineId,
+  refillData = [{ pesoValue: "", quantity: "" }],
+}) => {
   const client = await pool.connect();
 
   try {
@@ -42,12 +45,24 @@ export const storeRefill = async ({ machineId, pesoValue, quantity }) => {
 
     const refillId = result.rows[0].refill_id;
 
+    // dynamically build the sql query
+    const placeholders = [];
+    const values = [];
+
+    refillData.forEach((data, i) => {
+      const offset = i * 3;
+
+      placeholders.push(`($${offset + 1}, $${offset + 2}, $${offset + 3})`);
+
+      values.push(refillId, data.pesoValue, data.quantity);
+    });
+
     await client.query(
       `
         INSERT INTO peso_refilled
-        VALUES ($1, $2, $3)
+        VALUES ${placeholders.join(", ")}
       `,
-      [refillId, pesoValue, quantity],
+      values,
     );
 
     await client.query("COMMIT");

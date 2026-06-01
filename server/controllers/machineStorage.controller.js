@@ -2,6 +2,7 @@ import {
   fetchMachineStorage,
   storeRefill,
 } from "../models/machineStorage.model.js";
+import { isValidNumber } from "../utils/number.util.js";
 
 export const getMachineStorage = async (req, res) => {
   try {
@@ -21,34 +22,53 @@ export const getMachineStorage = async (req, res) => {
 };
 
 export const refillMachineStorage = async (req, res) => {
-  const pesoValue = Number(req.body.pesoValue);
-  const quantity = Number(req.body.quantity);
+  const { refillData } = req.body;
 
-  if (!pesoValue || !quantity)
-    return res
-      .status(400)
-      .json({ message: "Peso value and its quantity are required" });
+  if (!refillData)
+    return res.status(400).json({
+      message: "Refill data is required",
+      refillData: [{ pesoValue: "(Number)", quantity: "(Number" }],
+    });
 
-  if (isNaN(pesoValue) || isNaN(quantity))
-    return res
-      .status(400)
-      .json({ message: "Peso value and quantity must be a number" });
+  if (!Array.isArray(refillData))
+    return res.status(400).json({
+      message: "Refill data must be an array of objects",
+      refillData: [{ pesoValue: "(Number)", quantity: "(Number" }],
+    });
 
-  if (quantity < 1)
-    return res.status(400).json({ message: "Quantity must be more than one" });
+  if (
+    !refillData.every(
+      (data) => isValidNumber(data.pesoValue) && isValidNumber(data.quantity),
+    )
+  )
+    return res.status(400).json({
+      message: "Peso value and quantity must be a valid number",
+      refillData: [{ pesoValue: "(Number)", quantity: "(Number" }],
+    });
 
   try {
-    const refillId = await storeRefill({ machineId: 8, pesoValue, quantity });
+    const refillId = await storeRefill({
+      machineId: 8,
+      refillData,
+    });
 
     res.status(201).json({ message: "Refill successful" });
   } catch (error) {
+    if (error.code === "23514")
+      res
+        .status(400)
+        .json({
+          message:
+            "Invalid peso value. Please only include P1, P5, P10, and P20",
+        });
+
     console.error(
-      "An error occured while trying to get machine storage:",
+      "An error occured while trying to refill machine storage:",
       error,
     );
     res.status(500).json({
       message:
-        "Server error. An error occured while trying to get machine storage",
+        "Server error. An error occured while trying to refill machine storage",
     });
   }
 };

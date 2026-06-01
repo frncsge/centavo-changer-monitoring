@@ -2,12 +2,16 @@ import express from "express";
 import {
   getMachineStorage,
   refillMachineStorage,
-} from "../controllers/machineStorage.controller.js";
+  getMachines,
+} from "../controllers/machines.controller.js";
 import { authenticateUser } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 
-router.get("/machine-storage", authenticateUser, getMachineStorage);
+router.get("/machines", authenticateUser, getMachines);
+
+router.get("/machines/:id/storage", authenticateUser, getMachineStorage);
+
 router.post("/machine-storage", refillMachineStorage);
 
 export default router;

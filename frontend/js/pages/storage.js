@@ -1,10 +1,16 @@
 import { checkUserAuth } from "../auth/session.js";
 import { authFetch } from "../api/authFetch.js";
+import { getMachines } from "../api/machines.js";
 
 window.addEventListener("DOMContentLoaded", async () => {
   try {
+    // fetch machines first
+    const machines = await getMachines();
+
+    console.log("machine id:", machines[0].machine_id);
+
     // fetch machine storage
-    const res = await authFetch("/machine-storage");
+    const res = await authFetch(`/machines/${machines[0].machine_id}/storage`);
 
     // if user is unauthenticated
     if (res.status === 401) {

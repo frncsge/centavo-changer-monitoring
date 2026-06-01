@@ -1,12 +1,28 @@
 import {
   fetchMachineStorage,
   storeRefill,
-} from "../models/machineStorage.model.js";
+  fetchAllMachines,
+} from "../models/machines.model.js";
 import { isValidNumber } from "../utils/number.util.js";
 
-export const getMachineStorage = async (req, res) => {
+export const getMachines = async (req, res) => {
   try {
-    const storage = await fetchMachineStorage(req.user.id);
+    const machines = await fetchAllMachines(req.user.id);
+
+    res.status(200).json({ machines });
+  } catch (error) {
+    console.error("An error occured while trying to get machine/s:", error);
+    res.status(500).json({
+      message: "Server error. An error occured while trying to get machine/s",
+    });
+  }
+};
+
+export const getMachineStorage = async (req, res) => {
+  const { id: machineId } = req.params;
+
+  try {
+    const storage = await fetchMachineStorage(machineId);
 
     res.status(200).json({ storage });
   } catch (error) {
@@ -55,12 +71,9 @@ export const refillMachineStorage = async (req, res) => {
     res.status(201).json({ message: "Refill successful" });
   } catch (error) {
     if (error.code === "23514")
-      res
-        .status(400)
-        .json({
-          message:
-            "Invalid peso value. Please only include P1, P5, P10, and P20",
-        });
+      res.status(400).json({
+        message: "Invalid peso value. Please only include P1, P5, P10, and P20",
+      });
 
     console.error(
       "An error occured while trying to refill machine storage:",

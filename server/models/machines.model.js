@@ -1,18 +1,53 @@
 import pool from "../../config/dbConfig.js";
 
-export const fetchMachineStorage = async (userId) => {
+export const fetchAllMachines = async (adminId) => {
+  try {
+    const result = await pool.query(
+      "SELECT m.* FROM machines m JOIN admins a ON a.admin_id = m.admin_id WHERE a.supabase_uid = $1",
+      [adminId],
+    );
+
+    return result.rows;
+  } catch (error) {
+    console.error(
+      "An error occured while trying to fetch all machines of an admin from the database:",
+      error,
+    );
+    throw error;
+  }
+};
+
+export const fetchMachineStorage = async (machineId) => {
   try {
     const result = await pool.query(
       `
-        SELECT
-            ms.*
-        FROM machine_storage ms
-        JOIN machines m ON ms.machine_id = m.machine_id
-        JOIN admins a ON m.admin_id = a.admin_id
-        WHERE a.supabase_uid = $1
-        ORDER BY ms.peso_value ASC;
+        SELECT 
+          machine_id,
+          peso_value,
+          SUM(quantity) AS quantity
+        FROM (
+          SELECT
+            r.machine_id,
+            pr.peso_value,
+            pr.quantity
+          FROM peso_refilled pr
+          JOIN refills r ON r.refill_id = pr.refill_id
+          WHERE r.machine_id = $1
+
+          UNION ALL
+
+          SELECT
+            txn.machine_id,
+            pd.peso_value,
+            -pd.quantity 
+          FROM peso_dispensed pd
+          JOIN transactions txn ON txn.transaction_id = pd.transaction_id
+          WHERE txn.machine_id = $1
+        ) event
+        GROUP BY machine_id, peso_value
+        ORDER BY peso_value ASC;
     `,
-      [userId],
+      [machineId],
     );
 
     return result.rows;

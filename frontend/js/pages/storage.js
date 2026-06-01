@@ -98,18 +98,6 @@ window.addEventListener("DOMContentLoaded", async () => {
     modal.classList.remove("show");
   });
 
-  // Plus button
-  // document.getElementById("plusBtn").addEventListener("click", () => {
-  //   refillInput.value = Number(refillInput.value) + 1;
-  // });
-
-  // Minus button
-  // document.getElementById("minusBtn").addEventListener("click", () => {
-  //   if (Number(refillInput.value) > 0) {
-  //     refillInput.value = Number(refillInput.value) - 1;
-  //   }
-  // });
-
   // Save refill
   document.getElementById("saveRefill").addEventListener("click", async () => {
     if (!selectedCard) return;

@@ -6,9 +6,8 @@ export async function authFetch(url, options = {}) {
   return fetch(`http://localhost:3000/api${url}`, {
     ...options,
     headers: {
+      "Content-Type": "application/json",
       Authorization: token ? `Bearer ${token}` : "",
     },
   });
 }
-
-

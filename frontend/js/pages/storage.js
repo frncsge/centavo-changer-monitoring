@@ -118,19 +118,17 @@ window.addEventListener("DOMContentLoaded", async () => {
     const value = Number(refillInput.value);
 
     if (modalMode === "refill") {
-      const currentStock = Number(stockSpan.textContent);
-      stockSpan.textContent = currentStock + value;
-
       const res = await authFetch("/machine-storage", {
         method: "POST",
         body: JSON.stringify({
-          pesoValue: selectedPesoValue,
-          quantity: value,
+          refillData: [{ pesoValue: selectedPesoValue, quantity: value }],
         }),
       });
 
       if (res.status === 401) {
-        window.location.replace("http://127.0.0.1:5501/frontend/html/login.html");
+        window.location.replace(
+          "http://127.0.0.1:5501/frontend/html/login.html",
+        );
         return;
       }
 
@@ -142,6 +140,9 @@ window.addEventListener("DOMContentLoaded", async () => {
       }
 
       alert(data.message);
+
+      const currentStock = Number(stockSpan.textContent);
+      stockSpan.textContent = currentStock + value;
     }
 
     if (modalMode === "edit") {

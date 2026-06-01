@@ -1,2 +1,0 @@
-ALTER TABLE admins
-ADD COLUMN firebase_uid TEXT UNIQUE NOT NULL;

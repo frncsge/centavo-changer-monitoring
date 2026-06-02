@@ -92,72 +92,36 @@ gap:12px;
     border-radius:20px;
     font-size:13px;
 }
-
-/* DROPDOWN */
-.dropdown{
-position:relative;
+.refill-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-/* BUTTON STYLE */
-.dropdown-btn {
-    background: linear-gradient(135deg, #16a34a, #15803d);
-    color: white;
-    border: none;
-    padding: 10px 18px;
-    border-radius: 25px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    letter-spacing: 0.3px;
-    transition: all 0.25s ease;
-    box-shadow: 0 4px 10px rgba(22, 163, 74, 0.25);
+.refill-main-btn {
+  background: #2e9f44;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
 }
 
-/* BUTTON HOVER */
-.dropdown-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 14px rgba(22, 163, 74, 0.35);
+.refill-main-btn:hover {
+  background: #248137;
 }
 
-/* DROPDOWN MENU */
-.dropdown-content {
-    display: none;
-    position: absolute;
-    top: 52px;
-    right: 0;
-    min-width: 220px;
-    background: white;
-    border-radius: 14px;
-    overflow: hidden;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-    border: 1px solid #e5e7eb;
-    z-index: 100;
-    animation: fadeIn 0.2s ease;
+.coin-inputs {
+  display: grid;
+  gap: 12px;
+  margin-top: 20px;
 }
 
-/* MENU ITEMS */
-.dropdown-content a {
-    display: block;
-    padding: 14px 18px;
-    text-decoration: none;
-    color: #1e293b;
-    font-size: 14px;
-    font-weight: 500;
-    transition: 0.2s;
+.coin-inputs input {
+  width: 100%;
+  padding: 10px;
 }
-
-/* MENU ITEM HOVER */
-.dropdown-content a:hover {
-    background: #f1f5f9;
-    color: #16a34a;
-    padding-left: 22px;
-}
-
-/* SHOW DROPDOWN */
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
 
 .inventory-overview{
 background:#1e293b;

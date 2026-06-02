@@ -40,17 +40,9 @@ window.addEventListener("DOMContentLoaded", async () => {
       const refillCard = `
 <div class="refill-card">
   <h4>₱${item.peso_value} Coin</h4>
-  <p>Current Stock: <span>${item.quantity}</span></p>
-
-  <div class="card-actions">
-    <button class="refill-btn" data-coin="${item.peso_value}">
-      Refill
-    </button>
-
-    <button class="edit-btn" data-coin="${item.peso_value}">
-      Edit
-    </button>
-  </div>
+  <p>Current Stock: <span id="stock-${item.peso_value}">
+    ${item.quantity}
+  </span></p>
 </div>
 `;
 
@@ -71,32 +63,17 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   // Open modal
   document.addEventListener("click", (e) => {
-    // Refill
-    if (e.target.classList.contains("refill-btn")) {
-      selectedCard = e.target.closest(".refill-card");
-      modalMode = "refill";
 
-      modalTitle.textContent = `Refill ${e.target.dataset.coin}`;
-      selectedPesoValue = e.target.dataset.coin;
+document
+  .getElementById("openRefillModal")
+  .addEventListener("click", () => {
+    modal.classList.add("show");
+  });
 
-      refillInput.value = 0;
-
-      modal.classList.add("show");
-    }
-
-    // Edit
-    if (e.target.classList.contains("edit-btn")) {
-      selectedCard = e.target.closest(".refill-card");
-      modalMode = "edit";
-
-      const currentStock = selectedCard.querySelector("span").textContent;
-
-      modalTitle.textContent = `Edit ${e.target.dataset.coin} Stock`;
-
-      refillInput.value = currentStock;
-
-      modal.classList.add("show");
-    }
+document.getElementById("closeModal").addEventListener("click", () => {
+  modal.classList.remove("show");
+});
+    
   });
 
   // Close modal
@@ -106,43 +83,43 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   // Save refill
   document.getElementById("saveRefill").addEventListener("click", async () => {
-    if (!selectedCard) return;
+  const refillData = [
+    {
+      pesoValue: 1,
+      quantity: Number(document.getElementById("coin1").value),
+    },
+    {
+      pesoValue: 5,
+      quantity: Number(document.getElementById("coin5").value),
+    },
+    {
+      pesoValue: 10,
+      quantity: Number(document.getElementById("coin10").value),
+    },
+    {
+      pesoValue: 20,
+      quantity: Number(document.getElementById("coin20").value),
+    },
+  ].filter((item) => item.quantity > 0);
 
-    const stockSpan = selectedCard.querySelector("span");
-    const value = Number(refillInput.value);
+  if (refillData.length === 0) {
+    alert("Enter at least one refill quantity.");
+    return;
+  }
 
-    if (modalMode === "refill") {
-      const res = await authFetch("/machine-storage", {
-        method: "POST",
-        body: JSON.stringify({
-          refillData: [{ pesoValue: selectedPesoValue, quantity: value }],
-        }),
-      });
-
-      if (res.status === 401) {
-        window.location.replace(
-          "http://127.0.0.1:5501/frontend/html/login.html",
-        );
-        return;
-      }
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        alert(data.message);
-        return;
-      }
-
-      alert(data.message);
-
-      const currentStock = Number(stockSpan.textContent);
-      stockSpan.textContent = currentStock + value;
-    }
-
-    if (modalMode === "edit") {
-      stockSpan.textContent = value;
-    }
-
-    modal.classList.remove("show");
+  const res = await authFetch("/machine-storage", {
+    method: "POST",
+    body: JSON.stringify({ refillData }),
   });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    alert(data.message);
+    return;
+  }
+
+  alert(data.message);
+  location.reload();
+});
 });

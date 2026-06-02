@@ -38,13 +38,15 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     storage.forEach((item) => {
       const refillCard = `
-<div class="refill-card">
-  <h4>₱${item.peso_value} Coin</h4>
-  <p>Current Stock: <span id="stock-${item.peso_value}">
-    ${item.quantity}
-  </span></p>
-</div>
-`;
+        <div class="refill-card">
+          <h4>₱${item.peso_value} Coin</h4>
+          <p>Current Stock: <span id="stock-${item.peso_value}">
+            ${item.quantity}
+            </span>
+          </p>
+          <button class="adjust-btn" data-coin="${item.peso_value}">Adjust</button>
+        </div>
+      `;
 
       refillCardsContainer.innerHTML += refillCard;
     });
@@ -63,17 +65,13 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   // Open modal
   document.addEventListener("click", (e) => {
+    document.getElementById("openRefillModal").addEventListener("click", () => {
+      modal.classList.add("show");
+    });
 
-document
-  .getElementById("openRefillModal")
-  .addEventListener("click", () => {
-    modal.classList.add("show");
-  });
-
-document.getElementById("closeModal").addEventListener("click", () => {
-  modal.classList.remove("show");
-});
-    
+    document.getElementById("closeModal").addEventListener("click", () => {
+      modal.classList.remove("show");
+    });
   });
 
   // Close modal
@@ -83,43 +81,43 @@ document.getElementById("closeModal").addEventListener("click", () => {
 
   // Save refill
   document.getElementById("saveRefill").addEventListener("click", async () => {
-  const refillData = [
-    {
-      pesoValue: 1,
-      quantity: Number(document.getElementById("coin1").value),
-    },
-    {
-      pesoValue: 5,
-      quantity: Number(document.getElementById("coin5").value),
-    },
-    {
-      pesoValue: 10,
-      quantity: Number(document.getElementById("coin10").value),
-    },
-    {
-      pesoValue: 20,
-      quantity: Number(document.getElementById("coin20").value),
-    },
-  ].filter((item) => item.quantity > 0);
+    const refillData = [
+      {
+        pesoValue: 1,
+        quantity: Number(document.getElementById("coin1").value),
+      },
+      {
+        pesoValue: 5,
+        quantity: Number(document.getElementById("coin5").value),
+      },
+      {
+        pesoValue: 10,
+        quantity: Number(document.getElementById("coin10").value),
+      },
+      {
+        pesoValue: 20,
+        quantity: Number(document.getElementById("coin20").value),
+      },
+    ].filter((item) => item.quantity > 0);
 
-  if (refillData.length === 0) {
-    alert("Enter at least one refill quantity.");
-    return;
-  }
+    if (refillData.length === 0) {
+      alert("Enter at least one refill quantity.");
+      return;
+    }
 
-  const res = await authFetch("/machine-storage", {
-    method: "POST",
-    body: JSON.stringify({ refillData }),
-  });
+    const res = await authFetch("/machine-storage", {
+      method: "POST",
+      body: JSON.stringify({ refillData }),
+    });
 
-  const data = await res.json();
+    const data = await res.json();
 
-  if (!res.ok) {
+    if (!res.ok) {
+      alert(data.message);
+      return;
+    }
+
     alert(data.message);
-    return;
-  }
-
-  alert(data.message);
-  location.reload();
-});
+    location.reload();
+  });
 });

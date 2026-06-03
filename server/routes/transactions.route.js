@@ -7,7 +7,7 @@ import { authenticateUser } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 
-router.get("/transactions", authenticateUser, getTransactions);
-router.post("/transactions", createTransaction);
+router.get("/machines/:id/transactions", getTransactions);
+router.post("/machines/:id/transactions", createTransaction);
 
 export default router;

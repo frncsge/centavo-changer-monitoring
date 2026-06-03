@@ -58,6 +58,11 @@ window.addEventListener("DOMContentLoaded", async () => {
   const modalTitle = document.getElementById("modalTitle");
   const refillInput = document.getElementById("refillInput");
   const closeModal = document.getElementById("closeModal");
+  const adjustModal = document.getElementById("adjustModal");
+  const adjustTitle = document.getElementById("adjustTitle");
+  const adjustLabel = document.getElementById("adjustLabel");
+  const adjustInput = document.getElementById("adjustInput");
+  const closeAdjustModal = document.getElementById("closeAdjustModal");
 
   let selectedCard = null;
   let modalMode = "refill"; // refill or edit
@@ -120,4 +125,50 @@ window.addEventListener("DOMContentLoaded", async () => {
     alert(data.message);
     location.reload();
   });
+
+  // Open Adjust modal when Adjust button is clicked
+document.addEventListener("click", (e) => {
+  if (e.target.classList.contains("adjust-btn")) {
+    selectedPesoValue = e.target.dataset.coin;
+
+    adjustTitle.textContent = `Adjust ₱${selectedPesoValue} Coin Stock`;
+    adjustLabel.textContent = `New quantity for ₱${selectedPesoValue}`;
+    adjustInput.value = "";
+
+    adjustModal.classList.add("show");
+  }
+});
+
+// Close Adjust modal
+closeAdjustModal.addEventListener("click", () => {
+  adjustModal.classList.remove("show");
+});
+
+document.getElementById("saveAdjust").addEventListener("click", async () => {
+  console.log("Save clicked");
+
+  console.log("Peso:", selectedPesoValue);
+  console.log("Quantity:", adjustInput.value);
+
+  const newQuantity = Number(adjustInput.value);
+
+  try {
+    const res = await authFetch("/machine-storage/adjust", {
+      method: "POST",
+      body: JSON.stringify({
+        pesoValue: Number(selectedPesoValue),
+        quantity: newQuantity,
+      }),
+    });
+
+    console.log("Status:", res.status);
+
+    const data = await res.json();
+
+    console.log(data);
+
+  } catch (err) {
+    console.error(err);
+  }
+});
 });

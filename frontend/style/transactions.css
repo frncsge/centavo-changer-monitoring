@@ -231,6 +231,22 @@ font-size:16px;
 cursor:pointer;
 }
 
+#logout-btn {
+  margin-top: 20px;
+}
+
+#logout-btn a {
+  color: #ef4444;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+#logout-btn a:hover {
+  background: #ef4444;
+  color: white;
+  border-radius: 8px;
+}
+
 /* =========================
    TABLET RESPONSIVE
 ========================= */

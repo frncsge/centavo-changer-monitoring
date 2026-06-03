@@ -1,8 +1,25 @@
 import pool from "../../config/dbConfig.js";
 
-export const fetchTransactions = async (userId) => {
+export const fetchTransactions = async ({
+  adminId,
+  machineId,
+  limit,
+  offset,
+}) => {
   try {
-    const result = await pool.query(
+    const countResult = await pool.query(
+      `
+        SELECT 
+          COUNT(*)
+        FROM transactions txn
+        JOIN machines m ON m.machine_id = txn.machine_id
+        JOIN admins a ON a.admin_id = m.admin_id
+        WHERE a.supabase_uid = $1 AND m.machine_id = $2;
+      `,
+      [adminId, machineId],
+    );
+
+    const txnResult = await pool.query(
       `
         SELECT 
           txn.*,
@@ -16,13 +33,19 @@ export const fetchTransactions = async (userId) => {
         JOIN peso_dispensed pd ON txn.transaction_id = pd.transaction_id
         JOIN machines m ON txn.machine_id = m.machine_id
         JOIN admins a ON m.admin_id = a.admin_id
-        WHERE a.supabase_uid = $1
+        WHERE a.supabase_uid = $1 AND m.machine_id = $2
         GROUP BY txn.transaction_id, txn.machine_id, txn.centavos_25_inserted
-        ORDER BY txn.transaction_date_time DESC;
+        ORDER BY txn.transaction_date_time DESC
+        LIMIT $3
+        OFFSET $4;
       `,
-      [userId],
+      [adminId, machineId, limit, offset],
     );
-    return result.rows;
+
+    const totalCount = Number(countResult.rows[0].count);
+    const transactions = txnResult.rows;
+
+    return { totalCount, transactions };
   } catch (error) {
     console.error(
       "An error occured while trying to fetch transactions from the database:",
@@ -66,9 +89,6 @@ export const storeNewTransaction = async ({
 
         values.push(transactionId, item.peso_value, item.quantity);
       });
-
-      console.log("placeholders:", placeholders);
-      console.log("values:", values);
 
       // then store the peso dispensed from the same transaction
       await client.query(

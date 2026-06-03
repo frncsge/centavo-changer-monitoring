@@ -3,21 +3,39 @@ import {
   storeNewTransaction,
 } from "../models/transactions.model.js";
 
-  export const getTransactions = async (req, res) => {
-    try {
-      const transactions = await fetchTransactions(req.user.id);
+export const getTransactions = async (req, res) => {
+  try {
+    const machineId = Number(req.params.id);
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 3;
 
-      res.status(200).json({ transactions });
-    } catch (error) {
-      console.error("An error occured while trying to get transactions:", error);
-      res.status(500).json({
-        message:
-          "Server error. An error occured while trying to get transactions",
+    // machine id required and should be a number
+    if (!Number.isInteger(machineId) || machineId <= 0)
+      return res.status(400).json({
+        message: "Invalid machine ID",
       });
-    }
-  };
+
+    const offset = (page - 1) * limit;
+
+    const { totalCount, transactions } = await fetchTransactions({
+      adminId: "e947d75a-7ff1-4ecb-b339-cc9e9f3506fc",
+      machineId,
+      limit,
+      offset,
+    });
+
+    res.status(200).json({ totalCount, transactions });
+  } catch (error) {
+    console.error("An error occured while trying to get transactions:", error);
+    res.status(500).json({
+      message:
+        "Server error. An error occured while trying to get transactions",
+    });
+  }
+};
 
 export const createTransaction = async (req, res) => {
+  const { id: machineId } = req.params;
   const { data } = req.body;
 
   if (!data) return res.status(400).json({ message: "No data is received" });
@@ -27,7 +45,7 @@ export const createTransaction = async (req, res) => {
 
   try {
     await storeNewTransaction({
-      machineId: data.machine_id,
+      machineId: machineId,
       eventId: data.event_id,
       centavos: data.centavos,
       dispensed: data.dispensed,

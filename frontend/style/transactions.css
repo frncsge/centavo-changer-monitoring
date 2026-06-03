@@ -7,7 +7,7 @@
 
 body {
     display: flex;
-    background: linear-gradient(135deg, #e6f2ef, #d9ebe7);
+    background: linear-gradient(135deg, #e6f2ef, #d9ebe7);  
 }
 
 /* SIDEBAR */
@@ -338,4 +338,18 @@ cursor:pointer;
     .sidebar ul li a {
         width: 100%;
     }
+}
+
+/* pagination */
+#pagination {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+#pagination > button {
+    padding: 10px;
+    font-size: medium;
+    cursor: pointer;
 }

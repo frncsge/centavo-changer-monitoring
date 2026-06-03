@@ -1,4 +1,6 @@
 import { authFetch } from "./authFetch.js";
+import { getMachines } from "./machines.js";
+import { renderPagination } from "../ui/pagination.js";
 
 export async function loadTransactions() {
   try {
@@ -12,7 +14,19 @@ export async function loadTransactions() {
     // Clear old data
     tableBody.innerHTML = "";
 
-    const res = await authFetch("/transactions");
+    // fetch machines first
+    const machines = await getMachines();
+
+    // then read the params from URL
+    const params = new URLSearchParams(window.location.search);
+
+    const machineId = Number(params.get("machineId"));
+    const currentPage = Number(params.get("page")) || 1;
+    const pageSize = 8;
+
+    const res = await authFetch(
+      `/machines/${machines[0].machine_id}/transactions?page=${currentPage}&limit=${pageSize}`,
+    );
 
     if (res.status === 401) {
       console.log(res);
@@ -26,10 +40,12 @@ export async function loadTransactions() {
     }
 
     const data = await res.json();
-    const transactions = data.transactions;
+    const { totalCount, transactions } = data;
 
-    console.log("Transactions fetched:", transactions);
+    // console.log("Total count of transactions fetched:", totalCount);
+    // console.log("Transactions fetched:", transactions);
 
+    // render the transactions
     transactions.forEach((txn) => {
       const row = document.createElement("tr");
 
@@ -60,6 +76,30 @@ export async function loadTransactions() {
             `;
 
       tableBody.appendChild(row);
+    });
+
+    // then render the pagination buttons
+    const container = document.getElementById("pagination");
+    renderPagination({ container, totalCount, pageSize, currentPage });
+
+    // attach event listener to container
+    container.addEventListener("click", (event) => {
+      const btn = event.target;
+
+      if (btn.tagName !== "BUTTON") return;
+
+      const page = Number(btn.dataset.page);
+
+      // go to page
+      const params = new URLSearchParams(window.location.search);
+
+      if (page === 1) {
+        params.delete("page");
+      } else {
+        params.set("page", page);
+      }
+
+      window.location.search = params.toString();
     });
   } catch (err) {
     console.error("Error loading transactions:", err);

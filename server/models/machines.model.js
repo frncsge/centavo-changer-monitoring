@@ -43,6 +43,15 @@ export const fetchMachineStorage = async (machineId) => {
           FROM peso_dispensed pd
           JOIN transactions txn ON txn.transaction_id = pd.transaction_id
           WHERE txn.machine_id = $1
+
+          UNION ALL
+
+          SELECT
+            machine_id,
+            peso_value,
+            quantity_change AS quantity
+          FROM adjustments
+          WHERE machine_id = $1
         ) event
         GROUP BY machine_id, peso_value
         ORDER BY peso_value ASC;

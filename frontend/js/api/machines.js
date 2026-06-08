@@ -1,12 +1,6 @@
 import { authFetch } from "./authFetch.js";
 
 export const getMachines = async () => {
-  const cachedMachines = sessionStorage.getItem("machines");
-
-  if (cachedMachines) {
-    return JSON.parse(cachedMachines);
-  }
-
   const response = await authFetch("/machines");
 
   if (response.status === 401) {
@@ -19,8 +13,6 @@ export const getMachines = async () => {
   }
 
   const data = await response.json();
-
-  sessionStorage.setItem("machines", JSON.stringify(data.machines));
 
   return data.machines;
 };

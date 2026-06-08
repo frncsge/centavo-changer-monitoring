@@ -22,7 +22,7 @@ export async function loadTransactions() {
 
     const machineId = Number(params.get("machineId"));
     const currentPage = Number(params.get("page")) || 1;
-    const pageSize = 8;
+    const pageSize = 10;
 
     const res = await authFetch(
       `/machines/${machines[0].machine_id}/transactions?page=${currentPage}&limit=${pageSize}`,
@@ -60,19 +60,17 @@ export async function loadTransactions() {
       });
 
       row.innerHTML = `
-                <td>${txn.transaction_id}</td>
-                <td>${txn.centavos_25_inserted}</td>
-                <td class="peso">₱${pesoValue}</td>
-                <td>${dispensedHTML}</td>
-                <td>${new Date(txn.transaction_date_time).toLocaleString(
+                <td class="non-monetary">${txn.transaction_id}</td>
+                <td class="monetary">${txn.centavos_25_inserted}</td>
+                <td class="peso monetary">₱${pesoValue}</td>
+                <td class="non-monetary">${dispensedHTML}</td>
+                <td class="non-monetary">${new Date(txn.transaction_date_time).toLocaleString(
                   "en-PH",
                   {
                     dateStyle: "medium",
                     timeStyle: "short",
                   },
                 )}</td>
-                <td><span class="status">completed</span></td>
-                <td class="actions">✏️ 🗑️</td>
             `;
 
       tableBody.appendChild(row);

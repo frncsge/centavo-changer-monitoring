@@ -25,35 +25,35 @@ export async function loadTransactions() {
     const pageSize = 10;
 
     // load machines into dropdown
-    const machineSelect = document.getElementById("machine-select");
-    machineSelect.innerHTML = "";
+    // const machineSelect = document.getElementById("machine-select");
+    // machineSelect.innerHTML = "";
 
-    machines.forEach((m) => {
-      const option = document.createElement("option");
-      option.value = m.machine_id;
-      option.textContent = m.location;
+    // machines.forEach((m) => {
+    //   const option = document.createElement("option");
+    //   option.value = m.machine_id;
+    //   option.textContent = m.location;
 
-      machineSelect.appendChild(option);
-    });
+    //   machineSelect.appendChild(option);
+    // });
 
     // sync dropdown UI with state
-    machineSelect.value = String(machineId);
+    // machineSelect.value = String(machineId);
 
     // listen for machine select dropdown value changes
-    machineSelect.addEventListener("change", (e) => {
-      const machineId = Number(e.target.value);
+    // machineSelect.addEventListener("change", (e) => {
+    //   const machineId = Number(e.target.value);
 
-      if (!machineId) {
-        params.delete("machine");
-      } else {
-        params.set("machine", machineId);
-      }
+    //   if (!machineId) {
+    //     params.delete("machine");
+    //   } else {
+    //     params.set("machine", machineId);
+    //   }
 
-      // reset pagination when machine changes
-      params.delete("page");
+    //   // reset pagination when machine changes
+    //   params.delete("page");
 
-      window.location.search = params.toString();
-    });
+    //   window.location.search = params.toString();
+    // });
 
     const res = await authFetch(
       `/machines/${machineId}/transactions?page=${currentPage}&limit=${pageSize}`,

@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import machinesRoutes from "./routes/machines.route.js";
+import adjustmentsRoutes from "./routes/adjustments.route.js";
 
 dotenv.config();
 
@@ -20,6 +21,9 @@ app.use("/api", transactionsRoutes);
 
 // routes for machines
 app.use("/api", machinesRoutes);
+
+// routes for adjustments
+app.use("/api", adjustmentsRoutes);
 
 // default check
 app.use("/", (req, res) => {

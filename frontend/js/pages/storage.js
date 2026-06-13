@@ -3,9 +3,11 @@ import { authFetch } from "../api/authFetch.js";
 import { getMachines } from "../api/machines.js";
 
 window.addEventListener("DOMContentLoaded", async () => {
+  let machines = null;
+
   try {
     // fetch machines first
-    const machines = await getMachines();
+    machines = await getMachines();
 
     console.log("machine id:", machines[0].machine_id);
 
@@ -127,14 +129,15 @@ window.addEventListener("DOMContentLoaded", async () => {
   });
 
   // Open Adjust modal when Adjust button is clicked
-document.addEventListener("click", (e) => {
-  if (e.target.classList.contains("adjust-btn")) {
-    selectedPesoValue = e.target.dataset.coin;
+  document.addEventListener("click", (e) => {
+    if (e.target.classList.contains("adjust-btn")) {
+      selectedPesoValue = e.target.dataset.coin;
 
-    adjustTitle.textContent = `Adjust ₱${selectedPesoValue} Coin Stock`;
-    adjustLabel.textContent = `New quantity for ₱${selectedPesoValue}`;
-    adjustInput.value = "";
+      adjustTitle.textContent = `Adjust ₱${selectedPesoValue} Coin Stock`;
+      adjustLabel.textContent = `Enter a negative (-) number to subtract`;
+      adjustInput.value = "";
 
+<<<<<<< HEAD
     adjustModal.classList.add("show");
   }
 });
@@ -218,4 +221,59 @@ refillHistory.forEach((refill) => {
     </tr>
   `;
 });
+=======
+      adjustModal.classList.add("show");
+    }
+  });
+
+  // Close Adjust modal
+  closeAdjustModal.addEventListener("click", () => {
+    adjustModal.classList.remove("show");
+  });
+
+  document.getElementById("saveAdjust").addEventListener("click", async () => {
+    console.log("Save clicked");
+
+    console.log("Peso:", selectedPesoValue);
+    console.log("Quantity:", adjustInput.value);
+
+    const adjustment = Number(adjustInput.value);
+
+    try {
+      const res = await authFetch(
+        `/machines/${machines[0].machine_id}/storage/adjustments`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            pesoValue: Number(selectedPesoValue),
+            quantityChange: adjustment,
+          }),
+        },
+      );
+
+      if (res.status === 401) {
+        console.log(res);
+        window.location.replace(
+          "http://127.0.0.1:5501/frontend/html/login.html",
+        );
+        return;
+      }
+
+      if (!res.ok) {
+        console.error("Fetch failed:", res.status, res.statusText);
+        return;
+      }
+
+      const data = await res.json();
+
+      alert("Adjustment saved!");
+      adjustModal.classList.remove("show");
+      window.location.reload();
+
+      console.log(data);
+    } catch (err) {
+      console.error(err);
+    }
+  });
+>>>>>>> 3f62bf7e85511ae5020c02b9fb1741be7dca7e9c
 });

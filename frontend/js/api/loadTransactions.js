@@ -20,12 +20,43 @@ export async function loadTransactions() {
     // then read the params from URL
     const params = new URLSearchParams(window.location.search);
 
-    const machineId = Number(params.get("machineId"));
+    const machineId = Number(params.get("machine")) || machines[0].machine_id;
     const currentPage = Number(params.get("page")) || 1;
-    const pageSize = 8;
+    const pageSize = 10;
+
+    // load machines into dropdown
+    // const machineSelect = document.getElementById("machine-select");
+    // machineSelect.innerHTML = "";
+
+    // machines.forEach((m) => {
+    //   const option = document.createElement("option");
+    //   option.value = m.machine_id;
+    //   option.textContent = m.location;
+
+    //   machineSelect.appendChild(option);
+    // });
+
+    // sync dropdown UI with state
+    // machineSelect.value = String(machineId);
+
+    // listen for machine select dropdown value changes
+    // machineSelect.addEventListener("change", (e) => {
+    //   const machineId = Number(e.target.value);
+
+    //   if (!machineId) {
+    //     params.delete("machine");
+    //   } else {
+    //     params.set("machine", machineId);
+    //   }
+
+    //   // reset pagination when machine changes
+    //   params.delete("page");
+
+    //   window.location.search = params.toString();
+    // });
 
     const res = await authFetch(
-      `/machines/${machines[0].machine_id}/transactions?page=${currentPage}&limit=${pageSize}`,
+      `/machines/${machineId}/transactions?page=${currentPage}&limit=${pageSize}`,
     );
 
     if (res.status === 401) {
@@ -42,9 +73,6 @@ export async function loadTransactions() {
     const data = await res.json();
     const { totalCount, transactions } = data;
 
-    // console.log("Total count of transactions fetched:", totalCount);
-    // console.log("Transactions fetched:", transactions);
-
     // render the transactions
     transactions.forEach((txn) => {
       const row = document.createElement("tr");
@@ -60,19 +88,16 @@ export async function loadTransactions() {
       });
 
       row.innerHTML = `
-                <td>${txn.transaction_id}</td>
-                <td>${txn.centavos_25_inserted}</td>
-                <td class="peso">₱${pesoValue}</td>
-                <td>${dispensedHTML}</td>
-                <td>${new Date(txn.transaction_date_time).toLocaleString(
-                  "en-PH",
-                  {
-                    dateStyle: "medium",
-                    timeStyle: "short",
-                  },
-                )}</td>
-                <td><span class="status">completed</span></td>
-                <td class="actions">✏️ 🗑️</td>
+                <td class="non-monetary">${txn.transaction_id}</td>
+                <td class="monetary">${txn.centavos_25_inserted}</td>
+                <td class="peso monetary">₱${pesoValue}</td>
+                <td class="non-monetary">${dispensedHTML}</td>
+                <td class="non-monetary">${new Date(
+                  txn.transaction_date_time,
+                ).toLocaleString("en-PH", {
+                  dateStyle: "medium",
+                  timeStyle: "short",
+                })}</td>
             `;
 
       tableBody.appendChild(row);
@@ -82,7 +107,7 @@ export async function loadTransactions() {
     const container = document.getElementById("pagination");
     renderPagination({ container, totalCount, pageSize, currentPage });
 
-    // attach event listener to container
+    // attach event listener to pagination container
     container.addEventListener("click", (event) => {
       const btn = event.target;
 
@@ -91,8 +116,6 @@ export async function loadTransactions() {
       const page = Number(btn.dataset.page);
 
       // go to page
-      const params = new URLSearchParams(window.location.search);
-
       if (page === 1) {
         params.delete("page");
       } else {

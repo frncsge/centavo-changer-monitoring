@@ -18,7 +18,7 @@ export const getTransactions = async (req, res) => {
     const offset = (page - 1) * limit;
 
     const { totalCount, transactions } = await fetchTransactions({
-      adminId: "e947d75a-7ff1-4ecb-b339-cc9e9f3506fc",
+      adminId: req.user.id,
       machineId,
       limit,
       offset,

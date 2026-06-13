@@ -11,12 +11,20 @@ body {
 }
 
 /* SIDEBAR */
-.sidebar {
-  width: 220px;
-  background: #1e293b;
-  color: white;
-  height: 100vh;
-  padding: 20px;
+.sidebar{
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 220px;
+    height: 100vh;
+
+    background: #1e293b;
+    color: white;
+
+    padding: 20px;
+    overflow-y: auto;
+    z-index: 1000;
 }
 
 .sidebar h2 {
@@ -57,9 +65,11 @@ body {
   background-color: #3b7ddd;
   color: white;
 }
-.main {
-  flex: 1;
-  padding: 20px;
+
+.main{
+    flex: 1;
+    margin-left: 220px;
+    padding: 20px;
 }
 
 /* TOPBAR */

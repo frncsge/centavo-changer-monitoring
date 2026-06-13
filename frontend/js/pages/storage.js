@@ -128,7 +128,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     location.reload();
   });
 
-  // Open Adjust modal when Adjust button is clicked
+    // Open Adjust modal when Adjust button is clicked
   document.addEventListener("click", (e) => {
     if (e.target.classList.contains("adjust-btn")) {
       selectedPesoValue = e.target.dataset.coin;
@@ -137,91 +137,7 @@ window.addEventListener("DOMContentLoaded", async () => {
       adjustLabel.textContent = `Enter a negative (-) number to subtract`;
       adjustInput.value = "";
 
-<<<<<<< HEAD
-    adjustModal.classList.add("show");
-  }
-});
 
-// Close Adjust modal
-closeAdjustModal.addEventListener("click", () => {
-  adjustModal.classList.remove("show");
-});
-
-document.getElementById("saveAdjust").addEventListener("click", async () => {
-  console.log("Save clicked");
-
-  console.log("Peso:", selectedPesoValue);
-  console.log("Quantity:", adjustInput.value);
-
-  const newQuantity = Number(adjustInput.value);
-
-  try {
-    const res = await authFetch("/machine-storage/adjust", {
-      method: "POST",
-      body: JSON.stringify({
-        pesoValue: Number(selectedPesoValue),
-        quantity: newQuantity,
-      }),
-    });
-
-    console.log("Status:", res.status);
-
-    const data = await res.json();
-
-    console.log(data);
-
-  } catch (err) {
-    console.error(err);
-  }
-});
-
-const refillHistory = [
-  {
-    date: "2026-06-12 09:30",
-    coin1: 50,
-    coin5: 20,
-    coin10: 10,
-    coin20: 5,
-  },
-  {
-    date: "2026-06-11 14:15",
-    coin1: 30,
-    coin5: 15,
-    coin10: 8,
-    coin20: 2,
-  },
-  {
-    date: "2026-06-10 10:45",
-    coin1: 100,
-    coin5: 50,
-    coin10: 20,
-    coin20: 10,
-  },
-];
-
-const historyBody = document.getElementById(
-  "refillHistoryBody"
-);
-
-refillHistory.forEach((refill) => {
-  const total =
-    refill.coin1 +
-    refill.coin5 +
-    refill.coin10 +
-    refill.coin20;
-
-  historyBody.innerHTML += `
-    <tr>
-      <td>${refill.date}</td>
-      <td>${refill.coin1}</td>
-      <td>${refill.coin5}</td>
-      <td>${refill.coin10}</td>
-      <td>${refill.coin20}</td>
-      <td>${total}</td>
-    </tr>
-  `;
-});
-=======
       adjustModal.classList.add("show");
     }
   });
@@ -252,7 +168,7 @@ refillHistory.forEach((refill) => {
       );
 
       if (res.status === 401) {
-        console.log(res);
+        
         window.location.replace(
           "http://127.0.0.1:5501/frontend/html/login.html",
         );
@@ -275,5 +191,51 @@ refillHistory.forEach((refill) => {
       console.error(err);
     }
   });
->>>>>>> 3f62bf7e85511ae5020c02b9fb1741be7dca7e9c
+
+  const refillHistory = [
+    {
+      date: "2026-06-12 09:30",
+      coin1: 50,
+      coin5: 20,
+      coin10: 10,
+      coin20: 5,
+    },
+    {
+      date: "2026-06-11 14:15",
+      coin1: 30,
+      coin5: 15,
+      coin10: 8,
+      coin20: 2,
+    },
+    {
+      date: "2026-06-10 10:45",
+      coin1: 100,
+      coin5: 50,
+      coin10: 20,
+      coin20: 10,
+    },
+  ];
+
+  const historyBody = document.getElementById("refillHistoryBody");
+
+  if (historyBody) {
+    refillHistory.forEach((refill) => {
+      const total =
+        refill.coin1 +
+        refill.coin5 +
+        refill.coin10 +
+        refill.coin20;
+
+      historyBody.innerHTML += `
+        <tr>
+          <td>${refill.date}</td>
+          <td>${refill.coin1}</td>
+          <td>${refill.coin5}</td>
+          <td>${refill.coin10}</td>
+          <td>${refill.coin20}</td>
+          <td>${total}</td>
+        </tr>
+      `;
+    });
+  }
 });

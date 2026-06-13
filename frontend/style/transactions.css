@@ -11,12 +11,20 @@ body {
 }
 
 /* SIDEBAR */
-.sidebar {
+.sidebar{
+    position: fixed;
+    top: 0;
+    left: 0;
+
     width: 220px;
+    height: 100vh;
+
     background: #1e293b;
     color: white;
-    height: 100vh;
+
     padding: 20px;
+    overflow-y: auto;
+    z-index: 1000;
 }
 
 .sidebar h2 {
@@ -58,8 +66,9 @@ body {
     color: white;
 }
 /* MAIN CONTENT */
-.main {
+.main{
     flex: 1;
+    margin-left: 220px;
     padding: 20px;
 }
 

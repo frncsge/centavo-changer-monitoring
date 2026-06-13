@@ -6,6 +6,7 @@
     <title>IoT Monitoring Dashboard</title>
     <link rel="stylesheet" href="../style/dashboard.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
 
   <body>
@@ -112,6 +113,38 @@
           <p>System Health <span class="excellent">Excellent</span></p>
         </div>
       </div>
+
+      <!-- Analytics -->
+<div class="analytics-section">
+
+  <div class="chart-card large">
+    <div class="card-header">
+      <h3>Weekly Transactions</h3>
+      <span>Last 7 Days</span>
+    </div>
+
+    <canvas id="weeklyTransactionsChart"></canvas>
+  </div>
+
+  <div class="chart-row">
+
+    <div class="chart-card">
+      <div class="card-header">
+        <h3>Coin Distribution</h3>
+      </div>
+      <canvas id="coinDistributionChart"></canvas>
+    </div>
+
+    <div class="chart-card">
+      <div class="card-header">
+        <h3>System Activity</h3>
+      </div>
+      <canvas id="activityChart"></canvas>
+    </div>
+
+  </div>
+
+</div>
 
       <!-- Table -->
       <div class="table-card">

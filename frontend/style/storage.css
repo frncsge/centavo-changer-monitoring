@@ -252,6 +252,59 @@ body {
   z-index: 999;
 }
 
+/* =========================
+   REFILL HISTORY
+========================= */
+
+.history-section {
+  margin-top: 25px;
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.history-header h3 {
+  color: #1e293b;
+  font-size: 22px;
+  margin-bottom: 5px;
+}
+
+.history-header p {
+  color: #64748b;
+  margin-bottom: 20px;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.refill-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.refill-table th {
+  background: #1e293b;
+  color: white;
+  padding: 14px;
+  text-align: left;
+}
+
+.refill-table td {
+  padding: 14px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.refill-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+.refill-table td:last-child {
+  font-weight: 600;
+  color: #16a34a;
+}
+
 /* SHOW MODAL */
 .modal.show {
   display: flex;

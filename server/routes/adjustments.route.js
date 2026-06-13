@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post(
   "/machines/:id/storage/adjustments",
-//   authenticateUser,
+  authenticateUser,
   createAdjustment,
 );
 

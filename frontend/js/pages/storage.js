@@ -135,6 +135,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
       adjustTitle.textContent = `Adjust ₱${selectedPesoValue} Coin Stock`;
       adjustLabel.textContent = `Enter a negative (-) number to subtract`;
+      adjustInput.placeholder = "Enter adjustment"
       adjustInput.value = "";
 
 
@@ -192,50 +193,50 @@ window.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-  const refillHistory = [
-    {
-      date: "2026-06-12 09:30",
-      coin1: 50,
-      coin5: 20,
-      coin10: 10,
-      coin20: 5,
-    },
-    {
-      date: "2026-06-11 14:15",
-      coin1: 30,
-      coin5: 15,
-      coin10: 8,
-      coin20: 2,
-    },
-    {
-      date: "2026-06-10 10:45",
-      coin1: 100,
-      coin5: 50,
-      coin10: 20,
-      coin20: 10,
-    },
-  ];
+  // const refillHistory = [
+  //   {
+  //     date: "2026-06-12 09:30",
+  //     coin1: 50,
+  //     coin5: 20,
+  //     coin10: 10,
+  //     coin20: 5,
+  //   },
+  //   {
+  //     date: "2026-06-11 14:15",
+  //     coin1: 30,
+  //     coin5: 15,
+  //     coin10: 8,
+  //     coin20: 2,
+  //   },
+  //   {
+  //     date: "2026-06-10 10:45",
+  //     coin1: 100,
+  //     coin5: 50,
+  //     coin10: 20,
+  //     coin20: 10,
+  //   },
+  // ];
 
-  const historyBody = document.getElementById("refillHistoryBody");
+  // const historyBody = document.getElementById("refillHistoryBody");
 
-  if (historyBody) {
-    refillHistory.forEach((refill) => {
-      const total =
-        refill.coin1 +
-        refill.coin5 +
-        refill.coin10 +
-        refill.coin20;
+  // if (historyBody) {
+  //   refillHistory.forEach((refill) => {
+  //     const total =
+  //       refill.coin1 +
+  //       refill.coin5 +
+  //       refill.coin10 +
+  //       refill.coin20;
 
-      historyBody.innerHTML += `
-        <tr>
-          <td>${refill.date}</td>
-          <td>${refill.coin1}</td>
-          <td>${refill.coin5}</td>
-          <td>${refill.coin10}</td>
-          <td>${refill.coin20}</td>
-          <td>${total}</td>
-        </tr>
-      `;
-    });
-  }
+  //     historyBody.innerHTML += `
+  //       <tr>
+  //         <td>${refill.date}</td>
+  //         <td>${refill.coin1}</td>
+  //         <td>${refill.coin5}</td>
+  //         <td>${refill.coin10}</td>
+  //         <td>${refill.coin20}</td>
+  //         <td>${total}</td>
+  //       </tr>
+  //     `;
+  //   });
+  // }
 });

@@ -112,7 +112,7 @@ window.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
-    const res = await authFetch("/machine-storage", {
+    const res = await authFetch(`/machines/${machines[0].machine_id}/storage`, {
       method: "POST",
       body: JSON.stringify({ refillData }),
     });
@@ -128,16 +128,15 @@ window.addEventListener("DOMContentLoaded", async () => {
     location.reload();
   });
 
-    // Open Adjust modal when Adjust button is clicked
+  // Open Adjust modal when Adjust button is clicked
   document.addEventListener("click", (e) => {
     if (e.target.classList.contains("adjust-btn")) {
       selectedPesoValue = e.target.dataset.coin;
 
       adjustTitle.textContent = `Adjust ₱${selectedPesoValue} Coin Stock`;
       adjustLabel.textContent = `Enter a negative (-) number to subtract`;
-      adjustInput.placeholder = "Enter adjustment"
+      adjustInput.placeholder = "Enter adjustment";
       adjustInput.value = "";
-
 
       adjustModal.classList.add("show");
     }
@@ -169,7 +168,6 @@ window.addEventListener("DOMContentLoaded", async () => {
       );
 
       if (res.status === 401) {
-        
         window.location.replace(
           "http://127.0.0.1:5501/frontend/html/login.html",
         );

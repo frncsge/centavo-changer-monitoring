@@ -2,9 +2,13 @@ import {
   fetchTransactions,
   storeNewTransaction,
 } from "../models/transactions.model.js";
-import { fetchMachineStorage } from "../models/machines.model.js";
+import {
+  fetchMachineStorage,
+  getMachineById,
+  markLowStockNotified,
+  resetLowStockNotified,
+} from "../models/machines.model.js";
 import { sendLowStockNotif } from "../utils/email.util.js";
-import redisClient from "../../config/redisConfig.js";
 import { getUserByMachineId } from "../models/users.model.js";
 
 export const getTransactions = async (req, res) => {
@@ -55,34 +59,27 @@ export const createTransaction = async (req, res) => {
       dispensed: data.dispensed,
     });
 
+    // check if a coin storage is low on stock
     const storage = await fetchMachineStorage(machineId);
     const hasLowStock = storage.some(
       (item) => item.quantity > 0 && item.quantity <= 5,
     );
 
-    const key = `lowStockNotified:${machineId}`;
+    if (hasLowStock) {
+      const machine = await getMachineById(machineId);
 
-    try {
-      if (hasLowStock) {
-        const isNotified = await redisClient.get(key);
+      // send email notif if it has not been sent yet
+      if (!machine.low_stock_notified) {
+        const user = await getUserByMachineId(machineId);
 
-        if (!isNotified) {
-          const user = await getUserByMachineId(machineId);
+        await sendLowStockNotif({ recipient: user.email });
 
-          await sendLowStockNotif({ recipient: user.email });
-
-          // prevent from sending multiple low stock notif
-          await redisClient.set(key, "1");
-        }
-      } else {
-        // allow low stock notif sending when stock is no longer low
-        await redisClient.del(key);
+        // then mark it as already notified
+        await markLowStockNotified(machineId);
       }
-    } catch (error) {
-      console.error(
-        "Notification error - skipping notification system:",
-        error,
-      );
+    } else {
+      // reset as notification not yet sent if there is no coin storage low on stock
+      await resetLowStockNotified(machineId);
     }
 
     res.status(201).json({ message: "Transaction created successfully" });

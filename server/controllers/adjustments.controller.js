@@ -1,5 +1,6 @@
 import { isValidNumber } from "../utils/number.util.js";
 import { storeAdjustment } from "../models/adjustments.model.js";
+import { fetchMachineStorage, resetLowStockNotified } from "../models/machines.model.js";
 
 export const createAdjustment = async (req, res) => {
   const { id: machineId } = req.params;
@@ -33,6 +34,17 @@ export const createAdjustment = async (req, res) => {
       return res.status(403).json({
         message: "You are not allowed to make any changes to this machine",
       });
+
+    // check if machine is no longer low on stock
+    const storage = await fetchMachineStorage(machineId);
+    const hasLowStock = storage.some(
+      (item) => item.quantity > 0 && item.quantity <= 5,
+    );
+
+    // set notification as not been sent yet if no low stock
+    if (!hasLowStock) {
+      await resetLowStockNotified(machineId);
+    }
 
     res.status(201).json({ adjustment });
   } catch (error) {

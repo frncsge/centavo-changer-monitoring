@@ -2,6 +2,7 @@ import {
   fetchMachineStorage,
   storeRefill,
   fetchAllMachines,
+  resetLowStockNotified,
 } from "../models/machines.model.js";
 import { isValidNumber } from "../utils/number.util.js";
 
@@ -73,6 +74,17 @@ export const refillMachineStorage = async (req, res) => {
       machineId: machineId,
       refillData,
     });
+
+    // check if machine is no longer low on stock
+    const storage = await fetchMachineStorage(machineId);
+    const hasLowStock = storage.some(
+      (item) => item.quantity > 0 && item.quantity <= 5,
+    );
+
+    // set notification as not been sent yet if no low stock
+    if (!hasLowStock) {
+      await resetLowStockNotified(machineId);
+    }
 
     res.status(201).json({ message: "Refill successful" });
   } catch (error) {

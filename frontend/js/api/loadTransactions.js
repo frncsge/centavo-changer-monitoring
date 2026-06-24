@@ -61,7 +61,7 @@ export async function loadTransactions() {
 
     if (res.status === 401) {
       console.log(res);
-      window.location.replace("http://127.0.0.1:5501/frontend/html/login.html");
+      window.location.replace("/html/login.html");
       return;
     }
 

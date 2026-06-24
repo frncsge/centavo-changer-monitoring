@@ -14,7 +14,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   if (res.status === 401) {
     alert("Session expired. Please login in again");
-    window.location.replace("http://127.0.0.1:5501/frontend/html/login.html");
+    window.location.replace("/html/login.html");
     return;
   }
 

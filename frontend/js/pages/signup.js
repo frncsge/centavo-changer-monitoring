@@ -20,7 +20,7 @@ async function signup() {
     password,
     options: {
       emailRedirectTo:
-        "http://127.0.0.1:5501/frontend/html/verificationMessage.html",
+        "/frontend/html/verificationMessage.html",
     },
   });
 

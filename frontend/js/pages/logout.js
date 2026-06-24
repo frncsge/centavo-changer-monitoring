@@ -12,5 +12,5 @@ document.getElementById("logout-btn").addEventListener("click", async () => {
     return;
   }
 
-  window.location.href = "http://127.0.0.1:5501/frontend/html/login.html";
+  window.location.href = "/frontend/html/login.html";
 });

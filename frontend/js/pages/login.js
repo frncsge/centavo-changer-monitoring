@@ -29,12 +29,12 @@ async function login() {
   const { data: factors } = await supabase.auth.mfa.listFactors();
 
   if (factors?.totp?.length > 0) {
-    window.location.href = "http://127.0.0.1:5501/frontend/html/auth.html";
+    window.location.href = "/frontend/html/auth.html";
     return;
   }
 
   // no MFA → go dashboard
-  window.location.href = "http://127.0.0.1:5501/frontend/html/dashboard.html";
+  window.location.href = "/frontend/html/dashboard.html";
 }
 
 document.getElementById("login-btn").addEventListener("click", login);

@@ -17,6 +17,25 @@ export const fetchAllMachines = async (adminId) => {
   }
 };
 
+export const getMachineById = async (machineId) => {
+  try {
+    const query = `
+      SELECT * 
+      FROM machines
+      WHERE machine_id = $1
+    `;
+
+    const { rows } = await pool.query(query, [machineId]);
+    return rows[0];
+  } catch (error) {
+    console.error(
+      "An error occured while trying to get machine form the database:",
+      error,
+    );
+    throw error;
+  }
+};
+
 export const fetchMachineStorage = async (machineId) => {
   try {
     const result = await pool.query(
@@ -129,5 +148,45 @@ export const storeRefill = async ({
     throw error;
   } finally {
     client.release();
+  }
+};
+
+export const markLowStockNotified = async (machineId) => {
+  try {
+    const query = `
+      UPDATE machines
+      SET low_stock_notified = TRUE
+      WHERE machine_id = $1
+       AND low_stock_notified = FALSE
+    `;
+
+    const { rows } = await pool.query(query, [machineId]);
+    return rows[0];
+  } catch (error) {
+    console.error(
+      "An error occured while trying to mark low stock notified:",
+      error,
+    );
+    throw error;
+  }
+};
+
+export const resetLowStockNotified = async (machineId) => {
+  try {
+    const query = `
+      UPDATE machines
+      SET low_stock_notified = FALSE
+      WHERE machine_id = $1
+       AND low_stock_notified = TRUE
+    `;
+
+    const { rows } = await pool.query(query, [machineId]);
+    return rows[0];
+  } catch (error) {
+    console.error(
+      "An error occured while trying to reset low stock notified:",
+      error,
+    );
+    throw error;
   }
 };

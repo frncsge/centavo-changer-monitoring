@@ -1,4 +1,4 @@
-import supabase from "../../../config/supabaseClient.js";
+import supabase from "/config/supabaseClient.js";
 
 async function signup() {
   const accName = document.getElementById("account-name").value?.trim();
@@ -19,8 +19,7 @@ async function signup() {
     email,
     password,
     options: {
-      emailRedirectTo:
-        "/frontend/html/verificationMessage.html",
+      emailRedirectTo: "/frontend/html/verificationMessage.html",
     },
   });
 

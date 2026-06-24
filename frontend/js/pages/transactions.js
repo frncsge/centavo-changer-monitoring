@@ -1,5 +1,5 @@
-import { checkUserAuth } from "../auth/session.js";
-import { loadTransactions } from "../api/loadTransactions.js";
+import { checkUserAuth } from "/js/auth/session.js";
+import { loadTransactions } from "/js/api/loadTransactions.js";
 
 window.addEventListener("DOMContentLoaded", async () => {
   await loadTransactions();

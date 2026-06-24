@@ -1,5 +1,5 @@
-import { checkUserAuth } from "../auth/session.js";
-import { authFetch } from "../api/authFetch.js";
+import { checkUserAuth } from "/js/auth/session.js";
+import { authFetch } from "/js/api/authFetch.js";
 
 window.addEventListener("DOMContentLoaded", async () => {
   // check if user is logged in

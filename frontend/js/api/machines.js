@@ -1,4 +1,4 @@
-import { authFetch } from "./authFetch.js";
+import { authFetch } from "/js/api/authFetch.js";
 
 export const getMachines = async () => {
   const response = await authFetch("/machines");

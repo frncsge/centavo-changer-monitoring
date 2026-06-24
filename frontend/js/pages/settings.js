@@ -1,7 +1,7 @@
-import supabase from "../../../config/supabaseClient.js";
-import { enableTOTP, verifyTOTP } from "../auth/mfa.js";
-import { checkUserAuth } from "../auth/session.js";
-import { hidePageLoadingOverlay } from "../ui/pageLoadingOverlay.js";
+import supabase from "/config/supabaseClient.js";
+import { enableTOTP, verifyTOTP } from "/js/auth/mfa.js";
+import { checkUserAuth } from "/js/auth/session.js";
+import { hidePageLoadingOverlay } from "/js/ui/pageLoadingOverlay.js";
 
 const enableTOTPbtn = document.getElementById("enable-totp-btn");
 

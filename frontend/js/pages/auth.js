@@ -1,4 +1,4 @@
-import supabase from "../../../config/supabaseClient.js";
+import supabase from "/config/supabaseClient.js";
 
 window.addEventListener("DOMContentLoaded", () => {
   document
@@ -41,7 +41,6 @@ window.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      window.location.href =
-        "/html/dashboard.html";
+      window.location.href = "/html/dashboard.html";
     });
 });

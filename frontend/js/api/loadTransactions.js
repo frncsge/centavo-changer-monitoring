@@ -1,6 +1,6 @@
-import { authFetch } from "./authFetch.js";
-import { getMachines } from "./machines.js";
-import { renderPagination } from "../ui/pagination.js";
+import { authFetch } from "/js/api/authFetch.js";
+import { getMachines } from "/js/api/machines.js";
+import { renderPagination } from "/js/ui/pagination.js";
 
 export async function loadTransactions() {
   try {

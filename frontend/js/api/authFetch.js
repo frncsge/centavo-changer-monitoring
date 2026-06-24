@@ -1,4 +1,4 @@
-import { getAccessToken } from "../auth/session.js";
+import { getAccessToken } from "/js/auth/session.js";
 
 export async function authFetch(url, options = {}) {
   const token = await getAccessToken();

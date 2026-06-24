@@ -1,4 +1,4 @@
-import supabase from "../../../config/supabaseClient.js";
+import supabase from "/config/supabaseClient.js";
 
 export async function checkUserAuth() {
   const { data, error } = await supabase.auth.getUser();

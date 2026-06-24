@@ -1,4 +1,4 @@
-import { checkUserAuth } from "../auth/session.js";
+import { checkUserAuth } from "/js/auth/session.js";
 
 window.addEventListener("DOMContentLoaded", async () => {
   const isLoggedIn = await checkUserAuth();

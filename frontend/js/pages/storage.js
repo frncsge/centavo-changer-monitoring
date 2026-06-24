@@ -1,6 +1,6 @@
-import { checkUserAuth } from "../auth/session.js";
-import { authFetch } from "../api/authFetch.js";
-import { getMachines } from "../api/machines.js";
+import { checkUserAuth } from "/js/auth/session.js";
+import { authFetch } from "/js/api/authFetch.js";
+import { getMachines } from "/js/api/machines.js";
 
 window.addEventListener("DOMContentLoaded", async () => {
   let machines = null;
@@ -169,7 +169,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
       if (res.status === 401) {
         window.location.replace(
-          "http://127.0.0.1:5501/frontend/html/login.html",
+          "/html/login.html",
         );
         return;
       }

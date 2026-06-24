@@ -3,7 +3,7 @@ import { getAccessToken } from "../auth/session.js";
 export async function authFetch(url, options = {}) {
   const token = await getAccessToken();
 
-  return fetch(`http://localhost:3000/api${url}`, {
+  return fetch(`https://changetavo.onrender.com/api${url}`, {
     ...options,
     headers: {
       "Content-Type": "application/json",
